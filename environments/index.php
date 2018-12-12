@@ -29,8 +29,8 @@
  * ```
  */
 return [
-    'Development' => [
-        'path' => 'dev',
+    'Local' => [
+        'path' => 'local',
         'setWritable' => [
             'backend/runtime',
             'backend/web/assets',
