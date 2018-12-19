@@ -34,7 +34,7 @@ AppAsset::register($this);
                     <ul class="header__navigation-list">
                         <li class="header__navigation-list-item"><a href="/">Главная</a></li>
                         <li class="header__navigation-list-item"><a href="/site/catalogue">Каталог</a></li>
-                        <li class="header__navigation-list-item"><a href="/site/blog">Блог</a></li>
+                        <li class="header__navigation-list-item"><a href="/blog">Блог</a></li>
                         <li class="header__navigation-list-item"><a href="#">Контакты</a></li>
                     </ul>
                 </nav>

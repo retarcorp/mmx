@@ -2,6 +2,8 @@
 
 namespace frontend\controllers;
 
+use common\models\Articles;
+use yii\data\Pagination;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -73,9 +75,26 @@ class SiteController extends Controller
         return $this->render('article');
     }
 
-    public function actionBlog()
+    /**
+     * @return string
+     */
+    public function actionBlog(): string
     {
-        return $this->render('blog');
+        $query = Articles::find();
+        $pages = new Pagination([
+            'totalCount' => $query->count(),
+            'pageSize' => 1,
+            'forcePageParam' => false,
+            'pageSizeParam' => false
+        ]);
+        $posts = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+
+        return $this->render('blog', [
+            'posts' => $posts,
+            'pages' => $pages
+        ]);
     }
 
     public function actionCart()
@@ -98,7 +117,8 @@ class SiteController extends Controller
         return $this->render('constructor');
     }
 
-    public function actionPosition(){
+    public function actionPosition()
+    {
         return $this->render('position');
     }
 }

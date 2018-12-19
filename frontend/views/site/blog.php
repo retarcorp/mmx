@@ -1,7 +1,16 @@
 <?php
 
+use common\models\Articles;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\LinkPager;
+
 /* @var $this yii\web\View */
+/* @var $posts Articles */
+/* @var $pages \yii\data\Pagination */
+
 $this->title = 'Блог';
+
 ?>
 
 <div class="header__bottom light">
@@ -15,146 +24,40 @@ $this->title = 'Блог';
     <section class="catalogue">
         <div class="container">
             <ul class="catalogue__list">
-                <li class="catalogue__list-item article">
-                    <div class="blog-item__image">
-                        <img src="/img/sections/about-it.png">
-                    </div>
+                <?php foreach ($posts as $post) {
+                    ?>
+                    <li class="catalogue__list-item article">
 
-                    <div class="blog-item__short-description">
-                        <h3>Очень полезная статья</h3>
-                        <p class="blog-item__short-article">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                            anim id est laborum.</p>
-                        <a class="default-link" href="#">Читать полностью...</a>
-                    </div>
-                </li>
-                <li class="catalogue__list-item article">
-                    <div class="blog-item__image">
-                        <img src="/img/sections/about-it.png">
-                    </div>
+                        <div class="blog-item__image">
+                            <?= Html::img(Articles::getPathImg($post->img)) ?>
+                        </div>
 
-                    <div class="blog-item__short-description">
-                        <h3>Очень полезная статья</h3>
-                        <p class="blog-item__short-article">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                            anim id est laborum.</p>
-                        <a class="default-link" href="#">Читать полностью...</a>
-                    </div>
-                </li>
-                <li class="catalogue__list-item article">
-                    <div class="blog-item__image">
-                        <img src="/img/sections/about-it.png">
-                    </div>
-
-                    <div class="blog-item__short-description">
-                        <h3>Очень полезная статья</h3>
-                        <p class="blog-item__short-article">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                            anim id est laborum.</p>
-                        <a class="default-link" href="#">Читать полностью...</a>
-                    </div>
-                </li>
-                <li class="catalogue__list-item article">
-                    <div class="blog-item__image">
-                        <img src="/img/sections/about-it.png">
-                    </div>
-
-                    <div class="blog-item__short-description">
-                        <h3>Очень полезная статья</h3>
-                        <p class="blog-item__short-article">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                            anim id est laborum.</p>
-                        <a class="default-link" href="#">Читать полностью...</a>
-                    </div>
-                </li>
-                <li class="catalogue__list-item article">
-                    <div class="blog-item__image">
-                        <img src="/img/sections/about-it.png">
-                    </div>
-
-                    <div class="blog-item__short-description">
-                        <h3>Очень полезная статья</h3>
-                        <p class="blog-item__short-article">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                            anim id est laborum.</p>
-                        <a class="default-link" href="#">Читать полностью...</a>
-                    </div>
-                </li>
-                <li class="catalogue__list-item article">
-                    <div class="blog-item__image">
-                        <img src="/img/sections/about-it.png">
-                    </div>
-
-                    <div class="blog-item__short-description">
-                        <h3>Очень полезная статья</h3>
-                        <p class="blog-item__short-article">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                            anim id est laborum.</p>
-                        <a class="default-link" href="#">Читать полностью...</a>
-                    </div>
-                </li>
-                <li class="catalogue__list-item article">
-                    <div class="blog-item__image">
-                        <img src="/img/sections/about-it.png">
-                    </div>
-
-                    <div class="blog-item__short-description">
-                        <h3>Очень полезная статья</h3>
-                        <p class="blog-item__short-article">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                            anim id est laborum.</p>
-                        <a class="default-link" href="#">Читать полностью...</a>
-                    </div>
-                </li>
-                <li class="catalogue__list-item article">
-                    <div class="blog-item__image">
-                        <img src="/img/sections/about-it.png">
-                    </div>
-
-                    <div class="blog-item__short-description">
-                        <h3>Очень полезная статья</h3>
-                        <p class="blog-item__short-article">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                            do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-                            irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
-                            Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                            anim id est laborum.</p>
-                        <a class="default-link" href="#">Читать полностью...</a>
-                    </div>
-                </li>
+                        <div class="blog-item__short-description">
+                            <h3><?= $post->title ?></h3>
+                            <div class="blog-item__short-article">
+                                <?= $post->article ?>
+                            </div>
+                            <?= Html::a('Читать полностью..', [
+                                Url::toRoute(['site/article', 'id' => $post->id])
+                            ], ['class' => 'default-link'])
+                            ?>
+                        </div>
+                    </li>
+                <?php } ?>
             </ul>
 
             <div class="catalogue__pages">
-                <ul class="catalogue__pages-list">
-                    <li class="catalogue__pages-list-item"><a href="#">1</a></li>
-                    <li class="catalogue__pages-list-item"><a href="#">2</a></li>
-                    <li class="catalogue__pages-list-item"><a href="#">3</a></li>
-                    <li class="catalogue__pages-list-item"><a href="#">4</a></li>
-                    <li class="catalogue__pages-list-item"><a href="#">...</a></li>
-                    <li class="catalogue__pages-list-item"><a href="#">18</a></li>
-                    <li class="catalogue__pages-list-item"><a href="#">19</a></li>
-                </ul>
+                <?= LinkPager::widget([
+                    'pagination' => $pages,
+                    'options' => [
+                        'class' => 'catalogue__pages-list'
+                    ],
+                    'prevPageLabel' => false,
+                    'nextPageLabel' => false,
+                    'linkContainerOptions' => [
+                        'class' => 'catalogue__pages-list-item'
+                    ]
+                ]); ?>
             </div>
         </div>
     </section>

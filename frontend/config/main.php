@@ -44,6 +44,8 @@ return [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                'site/blog/<page:\d+>' => 'blog',
+                'blog/' => 'site/blog',
             ],
         ],
 
