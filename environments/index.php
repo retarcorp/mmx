@@ -40,12 +40,14 @@ return [
         ],
         'setExecutable' => [
             'yii',
-            'yii_test',
         ],
         'setCookieValidationKey' => [
             'backend/config/main-local.php',
             'common/config/codeception-local.php',
             'frontend/config/main-local.php',
+        ],
+        'createSymlink' => [
+            'backend/web/uploads' => 'frontend/web/uploads',
         ],
     ],
     'Production' => [
@@ -63,6 +65,9 @@ return [
         'setCookieValidationKey' => [
             'backend/config/main-local.php',
             'frontend/config/main-local.php',
+        ],
+        'createSymlink' => [
+            'backend/web/uploads' => 'frontend/web/uploads',
         ],
     ],
 ];
