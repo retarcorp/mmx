@@ -70,9 +70,13 @@ class SiteController extends Controller
         return $this->render('index');
     }
 
-    public function actionArticle()
+    public function actionArticle($id)
     {
-        return $this->render('article');
+        $article = Articles::findOne($id);
+
+        return $this->render('article', [
+            'article' => $article
+        ]);
     }
 
     /**
