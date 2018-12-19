@@ -2,12 +2,13 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\Articles;
 use app\models\ArticlesSearch;
+use common\models\Articles;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ArticlesController implements the CRUD actions for Articles model.
@@ -60,14 +61,22 @@ class ArticlesController extends Controller
     /**
      * Creates a new Articles model.
      * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+     *
+     * @return string
+     * @throws \yii\base\Exception
      */
     public function actionCreate()
     {
         $model = new Articles();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->img = UploadedFile::getInstance($model, 'img');
+            if ($model->upload()) {
+                $model->save();
+            }
+            return $this->render('create', [
+                'model' => $model,
+            ]);
         }
 
         return $this->render('create', [
@@ -78,16 +87,21 @@ class ArticlesController extends Controller
     /**
      * Updates an existing Articles model.
      * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     *
+     * @param $id
+     * @return string|\yii\web\Response
+     * @throws NotFoundHttpException
+     * @throws \yii\base\Exception
      */
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $img = UploadedFile::getInstance($model, 'img');
+            $model->upload($img);
+            $model->save();
+            return $this->redirect(['update', 'id' => $model->id]);
         }
 
         return $this->render('update', [

@@ -16,7 +16,7 @@ class m181219_101442_create_table_articles extends Migration
             'id' => $this->primaryKey(),
             'title' => $this->char(50)->notNull(),
             'article' => $this->text()->notNull(),
-            'img' => $this->char(32)->notNull()
+            'img' => $this->text()->notNull()
         ]);
 
     }

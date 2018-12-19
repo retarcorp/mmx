@@ -2,9 +2,9 @@
 
 namespace app\models;
 
+use common\models\Articles;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Articles;
 
 /**
  * ArticlesSearch represents the model behind the search form of `common\models\Articles`.
@@ -14,7 +14,7 @@ class ArticlesSearch extends Articles
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             [['id'], 'integer'],
