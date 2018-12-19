@@ -17,7 +17,7 @@ class m181219_101442_create_table_articles extends Migration
             'title' => $this->char(50)->notNull(),
             'article' => $this->text()->notNull(),
             'img' => $this->text()->notNull()
-        ]);
+        ], 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB');
 
     }
 

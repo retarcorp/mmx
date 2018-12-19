@@ -28,11 +28,10 @@ use yii\widgets\ActiveForm;
     <?= $form->field($model, 'img')->widget(FileInput::class, [
         'options' => [
             'accept' => 'image/*',
-            'value' => $model->img,
         ],
         'pluginOptions' => [
             'initialPreview' => [
-                Html::img(Articles::getPathImg($model->img), ['style' => 'height: 160px'])
+                $model->isNewRecord ? false : Html::img(Articles::getPathImg($model->img), ['style' => 'height: 160px'])
             ],
             'showUpload' => false,
             'overwriteInitial' => true,

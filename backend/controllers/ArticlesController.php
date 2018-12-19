@@ -71,7 +71,7 @@ class ArticlesController extends Controller
 
         if ($model->load(Yii::$app->request->post())) {
             $model->img = UploadedFile::getInstance($model, 'img');
-            if ($model->upload()) {
+            if ($model->upload($model->img)) {
                 $model->save();
             }
             return $this->render('create', [

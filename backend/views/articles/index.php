@@ -1,19 +1,19 @@
 <?php
 
-use yii\helpers\Html;
+use common\models\Articles;
 use yii\grid\GridView;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\ArticlesSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Articles';
+$this->title = 'Статьи';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="articles-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
 
     <p>
         <?= Html::a('Добавить статью', ['create'], ['class' => 'btn btn-success']) ?>
@@ -21,13 +21,31 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
+        'options' => [
+            'class' => 'table table-striped table-bordered atricles-table'
+        ],
         'filterModel' => $searchModel,
         'columns' => [
-            'title',
-            'article:ntext',
-            'img',
-
-            ['class' => 'yii\grid\ActionColumn'],
+            [
+                'format' => 'raw',
+                'attribute' => 'title'
+            ],
+            [
+                'format' => 'raw',
+                'attribute' => 'article'
+            ],
+            [
+                'attribute' => 'img',
+                'format' => 'raw',
+                'filter' => false,
+                'value' => function ($model) {
+                    return Html::img(Articles::getPathImg($model->img), ['style' => 'height: 160px']);
+                }
+            ],
+            [
+                'class' => 'yii\grid\ActionColumn',
+                'template' => '{update}{delete}'
+            ],
         ],
     ]); ?>
 </div>

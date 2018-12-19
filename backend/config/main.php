@@ -10,7 +10,8 @@ return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
     'controllerNamespace' => 'backend\controllers',
-    'language'=> 'ru-RU',
+    'language' => 'ru-RU',
+    'name' => 'ЩитМ.бел',
     'bootstrap' => ['log'],
     'modules' => [],
     'components' => [
