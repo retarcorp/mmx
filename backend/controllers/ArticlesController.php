@@ -2,7 +2,7 @@
 
 namespace backend\controllers;
 
-use app\models\ArticlesSearch;
+use backend\models\ArticlesSearch;
 use common\models\Articles;
 use Yii;
 use yii\filters\VerbFilter;
