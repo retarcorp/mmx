@@ -3,6 +3,7 @@
 namespace frontend\controllers;
 
 use common\models\Articles;
+use common\models\Category;
 use frontend\models\ContactForm;
 use Yii;
 use yii\data\Pagination;
@@ -92,7 +93,7 @@ class SiteController extends Controller
         $query = Articles::find();
         $pages = new Pagination([
             'totalCount' => $query->count(),
-            'pageSize' => 1,
+            'pageSize' => 10,
             'forcePageParam' => false,
             'pageSizeParam' => false
         ]);
@@ -111,9 +112,16 @@ class SiteController extends Controller
         return $this->render('cart');
     }
 
+    /**
+     * @return string
+     */
     public function actionCatalogue()
     {
-        return $this->render('catalogue');
+        $posts = Category::find()->all();
+
+        return $this->render('catalogue',[
+            'posts'=> $posts
+        ]);
     }
 
     public function actionCategory()

@@ -1,5 +1,10 @@
 <?php
+
+use common\models\Category;
+use yii\helpers\Html;
+
 /* @var $this yii\web\View */
+/* @var $posts Category */
 
 $this->title = 'Каталог';
 ?>
@@ -15,46 +20,16 @@ $this->title = 'Каталог';
     <div class="catalogue">
         <div class="container">
             <ul class="catalogue__list">
-                <li class="catalogue__list-item products">
-                    <a href="#">
-                        <div class="catalogue__item-image">
-                            <img src="/img/sections/about-it.png" alt="">
-                        </div>
-                        <h3>Распределительные устройства категория 1</h3>
-                    </a>
-                </li>
-                <li class="catalogue__list-item products">
-                    <a href="#">
-                        <div class="catalogue__item-image">
-                            <img src="/img/sections/about-it.png" alt="">
-                        </div>
-                        <h3>Распределительные устройства категория 2</h3>
-                    </a>
-                </li>
-                <li class="catalogue__list-item products">
-                    <a href="#">
-                        <div class="catalogue__item-image">
-                            <img src="/img/sections/about-it.png" alt="">
-                        </div>
-                        <h3>Аксессуары тип 1</h3>
-                    </a>
-                </li>
-                <li class="catalogue__list-item products">
-                    <a href="#">
-                        <div class="catalogue__item-image">
-                            <img src="/img/sections/about-it.png" alt="">
-                        </div>
-                        <h3>Распределительные устройства категория 1</h3>
-                    </a>
-                </li>
-                <li class="catalogue__list-item products">
-                    <a href="#">
-                        <div class="catalogue__item-image">
-                            <img src="/img/sections/about-it.png" alt="">
-                        </div>
-                        <h3>Распределительные устройства категория 2</h3>
-                    </a>
-                </li>
+                <?php foreach ($posts as $post) { ?>
+                    <li class="catalogue__list-item products">
+                        <a href="#">
+                            <div class="catalogue__item-image">
+                                <?= Html::img(Category::getPathImg($post->img)) ?>
+                            </div>
+                            <h3><?= $post->title ?></h3>
+                        </a>
+                    </li>
+                <?php } ?>
             </ul>
         </div>
     </div>
