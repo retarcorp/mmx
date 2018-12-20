@@ -40,7 +40,7 @@ class SiteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::class,
                 'actions' => [
-                    'logout' => ['post'],
+                    'send-phone' => ['post'],
                 ],
             ],
         ];
@@ -63,7 +63,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays homepage.
+     * Displays main page.
      *
      * @return mixed
      */
@@ -131,6 +131,14 @@ class SiteController extends Controller
         return $this->render('position');
     }
 
+    public function actionContacts()
+    {
+        return $this->render('contacts');
+    }
+
+    /**
+     * @return string|\yii\web\Response
+     */
     public function actionSendPhone()
     {
         $model = new ContactForm();
@@ -144,6 +152,5 @@ class SiteController extends Controller
         }
 
         return $this->redirect(Yii::$app->request->referrer);
-
     }
 }
