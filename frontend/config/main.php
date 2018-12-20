@@ -39,7 +39,13 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-
+        'assetManager' => [
+            'bundles' => [
+                'yii\bootstrap\BootstrapAsset' => [
+                    'css' => [],
+                ],
+            ],
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
