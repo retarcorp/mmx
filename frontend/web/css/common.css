@@ -1243,6 +1243,10 @@ button.header-callback-item.button {
     width: 100%;
 }
 
+.help-block{
+    font-size: 14px;
+}
+
 .footer__bottom-info {
     background: #fff833;
     padding: 20px 0;

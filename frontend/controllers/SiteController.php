@@ -3,6 +3,8 @@
 namespace frontend\controllers;
 
 use common\models\Articles;
+use frontend\models\ContactForm;
+use Yii;
 use yii\data\Pagination;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -67,7 +69,10 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $model = new ContactForm();
+        return $this->render('index', [
+            'model' => $model
+        ]);
     }
 
     public function actionArticle($id)
@@ -124,5 +129,21 @@ class SiteController extends Controller
     public function actionPosition()
     {
         return $this->render('position');
+    }
+
+    public function actionSendPhone()
+    {
+        $model = new ContactForm();
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->sendEmail() === true) {
+                Yii::$app->session->setFlash('success', 'Ваша заявка отправлена');
+                return $this->renderAjax('_contact_form', ['model' => $model]);
+            };
+            Yii::$app->session->setFlash('error', 'Произошла ошибка. Попробуйте снова');
+            return $this->renderAjax('_contact_form', ['model' => $model]);
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
+
     }
 }

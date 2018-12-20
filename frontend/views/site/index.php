@@ -1,5 +1,7 @@
 <?php
 
+use yii\widgets\Pjax;
+
 /* @var $this yii\web\View */
 
 $this->title = Yii::$app->name;
@@ -29,17 +31,16 @@ $this->title = Yii::$app->name;
             <div class="call-form">
                 <div class="call-form__content">
                     <h3>Запросить сборку устройства</h3>
-                    <form class="call-form__form">
-                        <input type="text" placeholder="Ваш телефон">
-                        <button class="default-button bottom-border">Отправить</button>
-                    </form>
+                    <?php Pjax::begin(['enablePushState' => false, 'timeout' => false]) ?>
+                    <?= $this->render('_contact_form', ['model' => $model]) ?>
+                    <?php Pjax::end() ?>
                     <p class="call-form__note">Оставьте заявку, и наши специалисты перезвонят Вам и подберут для Вас
                         распределительное устройство с оптимальными характеристиками.</p>
 
                     <div class="call-form__advertise">
                         <p class="call-form__advertise-text">В нашем каталоге более 300 моделей распределительных
                             устройств!</p>
-                        <button class="default-button color"><a href="#">Открыть каталог</a></button>
+                        <button class="default-button color"><a href="/site/catalogue">Открыть каталог</a></button>
                     </div>
                 </div>
             </div>
