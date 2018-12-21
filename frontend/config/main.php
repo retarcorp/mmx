@@ -17,6 +17,7 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
+            'baseUrl' => ''
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -39,13 +40,21 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-
+        'assetManager' => [
+            'bundles' => [
+                'yii\bootstrap\BootstrapAsset' => [
+                    'css' => [],
+                ],
+            ],
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                '' => 'site/index',
                 'site/blog/<page:\d+>' => 'blog',
                 'blog/' => 'site/blog',
+                '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
             ],
         ],
 

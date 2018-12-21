@@ -10,35 +10,29 @@ use yii\base\Model;
  */
 class ContactForm extends Model
 {
-    public $name;
-    public $email;
-    public $subject;
-    public $body;
-    public $verifyCode;
-
+    public $phone;
 
     /**
      * {@inheritdoc}
      */
-    public function rules()
+    public function rules(): array
     {
         return [
-            // name, email, subject and body are required
-            [['name', 'email', 'subject', 'body'], 'required'],
-            // email has to be a valid email address
-            ['email', 'email'],
-            // verifyCode needs to be entered correctly
-            ['verifyCode', 'captcha'],
+            [['phone'], 'required'],
+            [['phone'], 'match', 'pattern' => '^(\+375|80)\s(29|25|44|33|17)\s(\d{3})\s(\d{2})\s(\d{2})$',
+                'message' => 'Телефон должен быть в формате +375/80 ХХ ХХХ ХХ ХХ'
+            ]
+
         ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels()
+    public function attributeLabels(): array
     {
         return [
-            'verifyCode' => 'Verification Code',
+            'phone' => 'Ваш телефон',
         ];
     }
 
@@ -48,13 +42,13 @@ class ContactForm extends Model
      * @param string $email the target email address
      * @return bool whether the email was sent
      */
-    public function sendEmail($email)
+    public function sendEmail(): bool
     {
         return Yii::$app->mailer->compose()
-            ->setTo($email)
-            ->setFrom([$this->email => $this->name])
-            ->setSubject($this->subject)
-            ->setTextBody($this->body)
+            ->setTo(Yii::$app->params['adminEmail'])
+            ->setFrom('no-replay@witm.by')
+            ->setSubject('Запрос на сборку устройства')
+            ->setTextBody("Номер телефона клиента {$this->phone}")
             ->send();
     }
 }

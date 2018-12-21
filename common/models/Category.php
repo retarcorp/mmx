@@ -5,46 +5,43 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "articles".
+ * This is the model class for table "category".
  *
  * @property int $id
  * @property string $title
- * @property string $article
  * @property string $img
  */
-class Articles extends \yii\db\ActiveRecord
+class Category extends \yii\db\ActiveRecord
 {
-    const ARTICLES_FOLDER = 'articles';
 
+    const CATEGORY_FOLDER = 'category';
     /**
      * {@inheritdoc}
      */
-    public static function tableName(): string
+    public static function tableName() : string
     {
-        return 'articles';
+        return 'category';
     }
 
     /**
      * {@inheritdoc}
      */
-    public function rules(): array
+    public function rules() : array
     {
         return [
-            [['title', 'article',], 'required'],
-            [['article'], 'string'],
-            [['title'], 'string', 'max' => 50]
+            [['title'], 'required'],
+            [['title'], 'string', 'max' => 50],
         ];
     }
 
     /**
      * {@inheritdoc}
      */
-    public function attributeLabels(): array
+    public function attributeLabels() : array
     {
         return [
             'id' => 'ID',
-            'title' => 'Заголовок',
-            'article' => 'Статья',
+            'title' => 'Название',
             'img' => 'Картинка',
         ];
     }
@@ -95,7 +92,7 @@ class Articles extends \yii\db\ActiveRecord
      */
     public static function getPathImg($imgName): string
     {
-        return '/uploads/' . self::ARTICLES_FOLDER . '/' . $imgName;
+        return '/uploads/' . self::CATEGORY_FOLDER . '/' . $imgName;
     }
 
     /**

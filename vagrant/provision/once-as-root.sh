@@ -28,7 +28,7 @@ apt-get update
 apt-get upgrade -y
 
 info "Install additional software"
-apt-get install -y php7.1-curl php7.1-cli php7.1-intl php7.1-mysqlnd php7.1-gd php7.1-fpm php7.1-mbstring php7.1-xml unzip nginx mysql-server-5.7 php.xdebug
+apt-get install -y php7.1-curl php7.1-cli php7.1-intl php7.1-mysqlnd php7.1-gd php7.1-fpm php7.1-mbstring php7.1-xml libapache2-mod-php7.1 php7.1-common unzip apache2 mysql-server-5.7 php.xdebug
 
 info "Configure MySQL"
 sed -i "s/.*bind-address.*/bind-address = 0.0.0.0/" /etc/mysql/mysql.conf.d/mysqld.cnf
@@ -51,12 +51,13 @@ xdebug.remote_autostart=1
 EOF
 echo "Done!"
 
-info "Configure NGINX"
-sed -i 's/user www-data/user vagrant/g' /etc/nginx/nginx.conf
+info "Enabling site configuration"
+ln -s /app/vagrant/apache2/apache2.conf /etc/apache2/sites-enabled/apache2.conf
+rm /etc/apache2/sites-enabled/000-default.conf
 echo "Done!"
 
-info "Enabling site configuration"
-ln -s /app/vagrant/nginx/app.conf /etc/nginx/sites-enabled/app.conf
+info "Configure Apache2"
+a2enmod rewrite
 echo "Done!"
 
 info "Initailize databases for MySQL"

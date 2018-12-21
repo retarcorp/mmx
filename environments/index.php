@@ -50,6 +50,27 @@ return [
             'backend/web/uploads' => 'frontend/web/uploads',
         ],
     ],
+    'Host' => [
+        'path' => 'host',
+        'setWritable' => [
+            'backend/runtime',
+            'backend/web/assets',
+            'console/runtime',
+            'frontend/runtime',
+            'frontend/web/assets',
+        ],
+        'setExecutable' => [
+            'yii',
+        ],
+        'setCookieValidationKey' => [
+            'backend/config/main-local.php',
+            'common/config/codeception-local.php',
+            'frontend/config/main-local.php',
+        ],
+        'createSymlink' => [
+            'backend/web/uploads' => 'frontend/web/uploads',
+        ],
+    ],
     'Production' => [
         'path' => 'prod',
         'setWritable' => [

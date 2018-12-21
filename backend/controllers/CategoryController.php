@@ -2,8 +2,8 @@
 
 namespace backend\controllers;
 
-use backend\models\ArticlesSearch;
-use common\models\Articles;
+use backend\models\CategorySearch;
+use common\models\Category;
 use Yii;
 use yii\filters\VerbFilter;
 use yii\web\Controller;
@@ -12,9 +12,9 @@ use yii\web\UploadedFile;
 use yii\filters\AccessControl;
 
 /**
- * ArticlesController implements the CRUD actions for Articles model.
+ * CategoryController implements the CRUD actions for Category model.
  */
-class ArticlesController extends Controller
+class CategoryController extends Controller
 {
     /**
      * {@inheritdoc}
@@ -42,12 +42,12 @@ class ArticlesController extends Controller
     }
 
     /**
-     * Lists all Articles models.
+     * Lists all Category models.
      * @return mixed
      */
     public function actionIndex()
     {
-        $searchModel = new ArticlesSearch();
+        $searchModel = new CategorySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
@@ -57,7 +57,7 @@ class ArticlesController extends Controller
     }
 
     /**
-     * Creates a new Articles model.
+     * Creates a new Category model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      *
      * @return string
@@ -65,7 +65,7 @@ class ArticlesController extends Controller
      */
     public function actionCreate()
     {
-        $model = new Articles();
+        $model = new Category();
 
         if ($model->load(Yii::$app->request->post())) {
             $model->img = UploadedFile::getInstance($model, 'img');
@@ -86,7 +86,7 @@ class ArticlesController extends Controller
     }
 
     /**
-     * Updates an existing Articles model.
+     * Updates an existing Category model.
      * If update is successful, the browser will be redirected to the 'view' page.
      *
      * @param $id
@@ -115,14 +115,13 @@ class ArticlesController extends Controller
     }
 
     /**
-     * Deletes an existing Articles model.
+     * Deletes an existing Category model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
      * @param integer $id
      * @return mixed
      * @throws NotFoundHttpException if the model cannot be found
      */
-    public
-    function actionDelete($id)
+    public function actionDelete($id)
     {
         $this->findModel($id)->delete();
 
@@ -130,16 +129,15 @@ class ArticlesController extends Controller
     }
 
     /**
-     * Finds the Articles model based on its primary key value.
+     * Finds the Category model based on its primary key value.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Articles the loaded model
+     * @return Category the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected
-    function findModel($id)
+    protected function findModel($id)
     {
-        if (($model = Articles::findOne($id)) !== null) {
+        if (($model = Category::findOne($id)) !== null) {
             return $model;
         }
 

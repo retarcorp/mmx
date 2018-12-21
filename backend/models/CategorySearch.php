@@ -1,24 +1,24 @@
 <?php
 
-namespace frontend\models;
+namespace backend\models;
 
-use common\models\Articles;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use common\models\Category;
 
 /**
- * ArticlesSearch represents the model behind the search form of `common\models\Articles`.
+ * CategorySearch represents the model behind the search form of `common\models\Category`.
  */
-class ArticlesSearch extends Articles
+class CategorySearch extends Category
 {
     /**
      * {@inheritdoc}
      */
-    public function rules(): array
+    public function rules() : array
     {
         return [
             [['id'], 'integer'],
-            [['title', 'article', 'img'], 'safe'],
+            [['title', 'img'], 'safe'],
         ];
     }
 
@@ -40,7 +40,7 @@ class ArticlesSearch extends Articles
      */
     public function search($params)
     {
-        $query = Articles::find();
+        $query = Category::find();
 
         // add conditions that should always apply here
 
@@ -62,7 +62,6 @@ class ArticlesSearch extends Articles
         ]);
 
         $query->andFilterWhere(['like', 'title', $this->title])
-            ->andFilterWhere(['like', 'article', $this->article])
             ->andFilterWhere(['like', 'img', $this->img]);
 
         return $dataProvider;

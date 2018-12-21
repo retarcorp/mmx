@@ -36,12 +36,11 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
-    $menuItems = [
-        ['label' => 'Статьи', 'url' => ['/articles/index']],
-    ];
-    if (Yii::$app->user->isGuest) {
-        $menuItems[] = ['label' => 'Войти', 'url' => ['/site/login']];
-    } else {
+    if (!Yii::$app->user->isGuest) {
+        $menuItems = [
+            ['label' => 'Категории', 'url' => ['category/index']],
+            ['label' => 'Статьи', 'url' => ['/articles/index']],
+        ];
         $menuItems[] = '<li>'
             . Html::beginForm(['/site/logout'], 'post')
             . Html::submitButton(
@@ -50,11 +49,12 @@ AppAsset::register($this);
             )
             . Html::endForm()
             . '</li>';
+
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav navbar-right'],
+            'items' => $menuItems,
+        ]);
     }
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => $menuItems,
-    ]);
     NavBar::end();
     ?>
 
@@ -70,8 +70,6 @@ AppAsset::register($this);
 <footer class="footer">
     <div class="container">
         <p class="pull-left">&copy; <?= Html::encode(Yii::$app->name) ?> <?= date('Y') ?></p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
     </div>
 </footer>
 

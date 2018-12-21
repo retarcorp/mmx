@@ -3,6 +3,9 @@
 namespace frontend\controllers;
 
 use common\models\Articles;
+use common\models\Category;
+use frontend\models\ContactForm;
+use Yii;
 use yii\data\Pagination;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -38,7 +41,7 @@ class SiteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::class,
                 'actions' => [
-                    'logout' => ['post'],
+                    'send-phone' => ['post'],
                 ],
             ],
         ];
@@ -61,13 +64,16 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays homepage.
+     * Displays main page.
      *
      * @return mixed
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $model = new ContactForm();
+        return $this->render('index', [
+            'model' => $model
+        ]);
     }
 
     public function actionArticle($id)
@@ -87,7 +93,7 @@ class SiteController extends Controller
         $query = Articles::find();
         $pages = new Pagination([
             'totalCount' => $query->count(),
-            'pageSize' => 1,
+            'pageSize' => 10,
             'forcePageParam' => false,
             'pageSizeParam' => false
         ]);
@@ -106,9 +112,16 @@ class SiteController extends Controller
         return $this->render('cart');
     }
 
+    /**
+     * @return string
+     */
     public function actionCatalogue()
     {
-        return $this->render('catalogue');
+        $posts = Category::find()->all();
+
+        return $this->render('catalogue',[
+            'posts'=> $posts
+        ]);
     }
 
     public function actionCategory()
@@ -124,5 +137,28 @@ class SiteController extends Controller
     public function actionPosition()
     {
         return $this->render('position');
+    }
+
+    public function actionContacts()
+    {
+        return $this->render('contacts');
+    }
+
+    /**
+     * @return string|\yii\web\Response
+     */
+    public function actionSendPhone()
+    {
+        $model = new ContactForm();
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->sendEmail() === true) {
+                Yii::$app->session->setFlash('success', 'Ваша заявка отправлена');
+                return $this->renderAjax('_contact_form', ['model' => $model]);
+            };
+            Yii::$app->session->setFlash('error', 'Произошла ошибка. Попробуйте снова');
+            return $this->renderAjax('_contact_form', ['model' => $model]);
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
     }
 }
