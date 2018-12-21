@@ -31,10 +31,13 @@ AppAsset::register($this);
     <?php
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
+        'brandUrl' => Yii::$app->request->hostInfo,
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
+        'brandOptions' => [
+            'target' => '_blank'
+        ]
     ]);
     if (!Yii::$app->user->isGuest) {
         $menuItems = [
