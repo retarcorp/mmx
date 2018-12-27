@@ -2,7 +2,6 @@
 
 namespace frontend\models;
 
-use Yii;
 use yii\base\Model;
 
 /**
@@ -44,11 +43,15 @@ class ContactForm extends Model
      */
     public function sendEmail(): bool
     {
-        return Yii::$app->mailer->compose()
-            ->setTo(Yii::$app->params['adminEmail'])
-            ->setFrom('snickers.08@list.ru')
-            ->setSubject('Запрос на сборку устройства')
-            ->setTextBody("Номер телефона клиента {$this->phone}")
-            ->send();
+        $to = "levchuk08@gmail.com";
+
+        $subject = "Запрос на сборку устройства";
+
+        $message = "Номер телефона клиента {$this->phone}";
+
+        $headers = "Content-type: text/html; charset=utf-8 \r\n";
+        $headers .= "From: <no-replay@щитм.бел>\r\n";
+
+        return mail($to, $subject, $message, $headers);
     }
 }
