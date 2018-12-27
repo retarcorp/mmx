@@ -1,7 +1,7 @@
 <?php
 
-use yii\widgets\Pjax;
 use frontend\assets\AppAsset;
+use yii\widgets\Pjax;
 
 /* @var $this yii\web\View */
 
@@ -137,108 +137,27 @@ AppAsset::register($this);
         <div class="container">
             <h2>Популярное в каталоге</h2>
             <ul class="popular__slick slick-container">
-                <li class="popular__slick-item">
-                    <div class="popular__slick-item-content">
-                        <h4>Арт. №1184-294</h4>
-                        <div class="popular__image">
-                            <img src="/img/sections/popular-product-1.png">
+                <?php foreach ($products as $product) { ?>
+                    <li class="popular__slick-item">
+                        <div class="popular__slick-item-content">
+                            <h4>Арт. <?= $product['vendor_code'] ?></h4>
+                            <div class="popular__image">
+                                <img src="/img/sections/popular-product-1.png">
+                            </div>
+                            <div class="popular__product-description">
+                                <?= $product['product_name'] ?>
+                            </div>
+                            <div class="popular__options">
+                                <input type="hidden" value="<?= $product['id']?>">
+                                <p>
+                                    <span class="price"><?= $product['price'] ?></span>
+                                    <span class="currency">руб.</span>
+                                </p>
+                                <button class="default-button color cart-button"><a href="#">В корзину</a></button>
+                            </div>
                         </div>
-                        <div class="popular__product-description">
-                            <p>Розеток 220В : 4.</p>
-                            <p>Розеток 380В : 2.</p>
-                            <p>Размеры: 44Х140Х180.</p>
-                        </div>
-                        <div class="popular__options">
-                            <p>554,1 <span class="currency">руб.</span></p>
-                            <button class="default-button color cart-button"><a href="#">В корзину</a></button>
-                        </div>
-                    </div>
-                </li>
-                <li class="popular__slick-item">
-                    <div class="popular__slick-item-content">
-                        <h4>Арт. №1184-294</h4>
-                        <div class="popular__image">
-                            <img src="/img/sections/popular-product-1.png">
-                        </div>
-                        <div class="popular__product-description">
-                            <p>Розеток 220В : 4.</p>
-                            <p>Розеток 380В : 2.</p>
-                            <p>Размеры: 44Х140Х180.</p>
-                        </div>
-                        <div class="popular__options">
-                            <p>554,1 <span class="currency">руб.</span></p>
-                            <button class="default-button color cart-button"><a href="#">В корзину</a></button>
-                        </div>
-                    </div>
-                </li>
-                <li class="popular__slick-item">
-                    <div class="popular__slick-item-content">
-                        <h4>Арт. №1184-294</h4>
-                        <div class="popular__image">
-                            <img src="/img/sections/popular-product-1.png">
-                        </div>
-                        <div class="popular__product-description">
-                            <p>Розеток 220В : 4.</p>
-                            <p>Розеток 380В : 2.</p>
-                            <p>Размеры: 44Х140Х180.</p>
-                        </div>
-                        <div class="popular__options">
-                            <p>554,1 <span class="currency">руб.</span></p>
-                            <button class="default-button color cart-button"><a href="#">В корзину</a></button>
-                        </div>
-                    </div>
-                </li>
-                <li class="popular__slick-item">
-                    <div class="popular__slick-item-content">
-                        <h4>Арт. №1184-294</h4>
-                        <div class="popular__image">
-                            <img src="/img/sections/popular-product-1.png">
-                        </div>
-                        <div class="popular__product-description">
-                            <p>Розеток 220В : 4.</p>
-                            <p>Розеток 380В : 2.</p>
-                            <p>Размеры: 44Х140Х180.</p>
-                        </div>
-                        <div class="popular__options">
-                            <p>554,1 <span class="currency">руб.</span></p>
-                            <button class="default-button color cart-button"><a href="#">В корзину</a></button>
-                        </div>
-                    </div>
-                </li>
-                <li class="popular__slick-item">
-                    <div class="popular__slick-item-content">
-                        <h4>Арт. №1184-294</h4>
-                        <div class="popular__image">
-                            <img src="/img/sections/popular-product-1.png">
-                        </div>
-                        <div class="popular__product-description">
-                            <p>Розеток 220В : 4.</p>
-                            <p>Розеток 380В : 2.</p>
-                            <p>Размеры: 44Х140Х180.</p>
-                        </div>
-                        <div class="popular__options">
-                            <p>554,1 <span class="currency">руб.</span></p>
-                            <button class="default-button color cart-button"><a href="#">В корзину</a></button>
-                        </div>
-                    </div>
-                </li>
-                <li class="popular__slick-item">
-                    <div class="popular__slick-item-content">
-                        <h4>Арт. №1184-294</h4>
-                        <div class="popular__image">
-                            <img src="/img/sections/popular-product-1.png">
-                        </div>
-                        <div class="popular__product-description">
-                            <p>Розеток 220В : 4.</p>
-                            <p>Розеток 380В : 2.</p>
-                            <p>Размеры: 44Х140Х180.</p>
-                        </div>
-                        <div class="popular__options">
-                            <p>554,1 <span class="currency">руб.</span></p>
-                            <button class="default-button color cart-button"><a href="#">В корзину</a></button>
-                        </div>
-                    </div>
-                </li>
+                    </li>
+                <?php } ?>
             </ul>
         </div>
 

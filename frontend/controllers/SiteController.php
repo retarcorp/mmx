@@ -80,8 +80,14 @@ class SiteController extends Controller
     public function actionIndex()
     {
         $model = new ContactForm();
+        $products = Products::find()
+            ->orderBy("RAND()")
+            ->limit(8)
+            ->asArray()
+            ->all();
         return $this->render('index', [
-            'model' => $model
+            'model' => $model,
+            'products'=> $products
         ]);
     }
 
