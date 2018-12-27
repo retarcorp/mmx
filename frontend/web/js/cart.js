@@ -52,12 +52,15 @@ $(function ($) {
         form.submit();
     });
 
-    $('body').on('click', '#orderForm', function (e) {
-        e.preventDefault();
+    $('#orderForm').submit(function (event) {
+
+        event.preventDefault();
+
         window.localStorage.removeItem('cartId');
         window.localStorage.removeItem('cartPrice');
-        $('#orderForm').submit();
-    })
+        $(this).unbind('submit').submit();
+
+    });
 
 });
 
@@ -113,17 +116,22 @@ function updateHeader(array, id) {
 
     let priceArray = JSON.parse(window.localStorage.getItem('cartPrice'));
 
-    priceArray.forEach(function (index, value) {
-        if (index !== null) {
-            price += index * array[value]
-        }
-    });
+    if (priceArray !== null) {
+        priceArray.forEach(function (index, value) {
+            if (index !== null) {
+                price += index * array[value]
+            }
+        });
+    }
 
-    array.forEach(function (value) {
-        count += value;
-    });
-
-    $('.position__cart-options').find('input[type=number]').val(array[id]);
+    if (array !== null) {
+        array.forEach(function (value) {
+            count += value;
+        });
+    }
+    if (array !== null) {
+        $('.position__cart-options').find('input[type=number]').val(array[id]);
+    }
 
     $('.header__cart-items').find('.count span').text(count);
     $('.header__cart-items').find('.price').text(price);

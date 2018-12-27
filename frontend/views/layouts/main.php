@@ -54,7 +54,7 @@ $model = Yii::$app->params['products'];
                     </a>
                 </div>
                 <?php $form = ActiveForm::begin([
-                    'action' => 'cart',
+                    'action' => '/site/cart',
                     'id' => 'cartForm'
                 ]) ?>
 
