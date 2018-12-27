@@ -4,8 +4,10 @@ namespace frontend\controllers;
 
 use common\models\Articles;
 use common\models\Category;
+use common\models\Products;
 use frontend\models\ContactForm;
 use Yii;
+use yii\base\Module;
 use yii\data\Pagination;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
@@ -16,6 +18,13 @@ use yii\web\Controller;
  */
 class SiteController extends Controller
 {
+
+    public function __construct(string $id, Module $module, array $config = [])
+    {
+        Yii::$app->params['products'] = new Products();
+        parent::__construct($id, $module, $config);
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -109,7 +118,29 @@ class SiteController extends Controller
 
     public function actionCart()
     {
-        return $this->render('cart');
+        $model = new Products();
+        if ($model->load(Yii::$app->request->post())) {
+            $result = [];
+            $sum = 0;
+            foreach ($model->id as $key => $item) {
+                if ($key !== 0 && !empty($item)) {
+                    $product = Products::findOne($key);
+                    $result[$key]['product'] = $product;
+                    $result[$key][] = $item;
+                    $sum += $product->price * $item;
+                }
+            }
+
+
+            return $this->render('cart', [
+                'posts' => $result,
+                'sum' => $sum,
+                'model' => $model
+            ]);
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
+
     }
 
     /**
@@ -119,14 +150,35 @@ class SiteController extends Controller
     {
         $posts = Category::find()->all();
 
-        return $this->render('catalogue',[
-            'posts'=> $posts
+        return $this->render('catalogue', [
+            'posts' => $posts
         ]);
     }
 
+    /**
+     * @return string
+     */
     public function actionCategory()
     {
-        return $this->render('category');
+        $query = Products::find()
+            ->where(['status' => Products::STATUS_ACTIVE]);
+
+
+        $pages = new Pagination([
+            'totalCount' => $query->count(),
+            'pageSize' => 12,
+            'forcePageParam' => false,
+            'pageSizeParam' => false
+        ]);
+
+        $posts = $query->offset($pages->offset)
+            ->limit($pages->limit)
+            ->all();
+
+        return $this->render('category', [
+            'posts' => $posts,
+            'pages' => $pages
+        ]);
     }
 
     public function actionConstructor()
@@ -134,9 +186,12 @@ class SiteController extends Controller
         return $this->render('constructor');
     }
 
-    public function actionPosition()
+    public function actionPosition($id)
     {
-        return $this->render('position');
+        $post = Products::findOne($id);
+        return $this->render('position', [
+            'post' => $post
+        ]);
     }
 
     public function actionContacts()
@@ -157,6 +212,33 @@ class SiteController extends Controller
             };
             Yii::$app->session->setFlash('error', 'Произошла ошибка. Попробуйте снова');
             return $this->renderAjax('_contact_form', ['model' => $model]);
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionOrder()
+    {
+        $model = new Products();
+        if ($model->load(Yii::$app->request->post())) {
+            $sum = 0;
+            $text = "Заказ:\n\n";
+            foreach ($model->id as $key => $value) {
+                $product = Products::findOne($key);
+                $price = $product->price * $value;
+                $text .= "Артикул: {$product->vendor_code}\n
+Название продукта: {$product->product_name}\n
+Цена: {$product->price}  руб.\n
+Количество: {$value}\n
+Итого: {$price} руб. \n\n
+";
+                $sum += $price;
+            }
+            $text .= "Общая сумма заказа: {$sum}";
+
+            $model->sendEmailOrder($text);
+
+            return $this->render('order');
         }
 
         return $this->redirect(Yii::$app->request->referrer);

@@ -1,36 +1,58 @@
 <?php
 
+use common\models\Products;
+
+
+/* @var $this yii\web\View */
+/* @var $post Products */
+
+$path = Yii::getAlias('@frontend') . '/web/uploads/' . Products::FOLDER_1C . '/' . $post->img_title . '/';
 ?>
 
 
-<div class="wrapper__content">
-    <section class="position">
-        <div class="container">
-            <a class="backward-link" href="catalogue.html">Назад к списку позиций</a>
-            <div class="position__content">
-                <div class="position__image">
-                    <img src="/img/sections/popular-product-1.png">
-                </div>
-
-                <div class="position__description">
-                    <h3>Арт. №1184-294</h3>
-                    <div class="position__cart-options">
-                        <span class="price">339 руб.</span>
-                        <input class="amount" type="number" value="1">
-                        <button class="default-button color cart-button">В корзину</button>
+    <div class="wrapper__content">
+        <section class="position">
+            <div class="container">
+                <a class="backward-link" href="catalogue">Назад к списку позиций</a>
+                <div class="position__content">
+                    <div class="position__image slider">
+                        <?php foreach (glob($path . "*.{jpg,png,gif}", GLOB_BRACE) as $filename) {
+                            $img = str_replace(Yii::getAlias('@frontend') . '/web', '', $filename);
+                            ?>
+                            <div>
+                                <img src="<?= $img ?>">
+                            </div>
+                        <?php } ?>
                     </div>
 
-                    <div class="position__specification">
-                        <h4>Характеристики:</h4>
-                        <p>Розеток 220В: 1</p>
-                        <p>Розеток 380В: 4</p>
-                        <p>Розеток без вольт: 1</p>
-                        <p>Размеры: 40Х150Х330</p>
-                        <p>Масса в собранном состоянии: 1.4 кг</p>
-                        <p>Страна происхождения комплектующих: Германия</p>
+                    <div class="position__description">
+                        <h3><?= "Арт. {$post->vendor_code}" ?></h3>
+                        <div class="position__cart-options">
+                            <span class="price"><span><?= $post->price?></span> руб.</span>
+                            <input class="amount" type="number" value="0" min="0">
+                            <input type="hidden" value="<?= $post->id?>">
+                            <button class="default-button color cart-button">В корзину</button>
+                        </div>
+
+                        <div class="position__specification">
+                            <h4>Характеристики:</h4>
+                            <p><?= $post->product_name ?></p>
+                            <p>Производитель: <?= $post->manufacturer ?></p>
+                            <p>Единица измерения: <?= $post->unit ?></p>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
-</div>
+        </section>
+    </div>
+
+<?php
+$script = <<< JS
+   $('.position__image').slick({
+        lazyLoad: 'ondemand',
+        infinite: true
+    });
+JS;
+
+$this->registerJs($script, yii\web\View::POS_READY);
+?>

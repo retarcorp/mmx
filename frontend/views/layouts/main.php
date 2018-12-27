@@ -6,7 +6,9 @@
 
 use frontend\assets\AppAsset;
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
+$model = Yii::$app->params['products'];
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -45,13 +47,22 @@ AppAsset::register($this);
                 </div>
 
                 <div class="header__cart">
-                    <a href="/site/cart">
+                    <a href="/site/cart" id="cart">
                         <div class="header__cart-items">
-                            <p class="header__cart-item count">2 позиции</p>
-                            <p class="header__cart-item price">186.76</p>
+                            <p class="header__cart-item count"><span>0</span> позиции</p>
+                            <p class="header__cart-item price">0.00</p>
                         </div>
                     </a>
                 </div>
+                <?php $form = ActiveForm::begin([
+                    'action' => 'cart',
+                    'id' => 'cartForm'
+                ]) ?>
+
+                <?= $form->field($model, 'id[]')->hiddenInput()->label(false) ?>
+
+                <?php ActiveForm::end() ?>
+
             </div>
         </div>
 
@@ -60,7 +71,7 @@ AppAsset::register($this);
 
 
         <div class="footer">
-           <?= $this->render('../site/_contacts')?>
+            <?= $this->render('../site/_contacts') ?>
 
             <div class="footer__bottom-info">
                 <div class="container">

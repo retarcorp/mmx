@@ -18,7 +18,8 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         'js/vendor/slick/slick.js',
-        'js/common.js'
+        'js/common.js',
+        'js/cart.js'
     ];
     public $depends = [
         'yii\web\YiiAsset'
