@@ -1,5 +1,10 @@
 <?php
+use frontend\assets\AppAsset;
 
+/* @var $this yii\web\View */
+/* @var $posts array */
+
+AppAsset::register($this);
 
 ?>
 

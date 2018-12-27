@@ -3,12 +3,13 @@
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use yii\widgets\MaskedInput;
+use frontend\assets\AppAsset;
 
 /* @var $this yii\web\View */
 /* @var $posts array */
 
 $this->title = 'Корзина';
-
+AppAsset::register($this);
 ?>
 
 <div class="header__bottom light">
