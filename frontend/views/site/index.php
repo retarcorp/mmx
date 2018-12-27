@@ -142,13 +142,17 @@ AppAsset::register($this);
                         <div class="popular__slick-item-content">
                             <h4>Арт. <?= $product['vendor_code'] ?></h4>
                             <div class="popular__image">
-                                <img src="/img/sections/popular-product-1.png">
+                                <?php if (!file_exists(Yii::getAlias('@frontend') . '/uploads/1C' . $product['img'])) { ?>
+                                    <img src="/img/sections/popular-product-1.png">
+                                <?php } else { ?>
+                                    <img src="/uploads/1C/" .<?= $product['img'] ?>
+                                <?php } ?>
                             </div>
                             <div class="popular__product-description">
                                 <?= $product['product_name'] ?>
                             </div>
                             <div class="popular__options">
-                                <input type="hidden" value="<?= $product['id']?>">
+                                <input type="hidden" value="<?= $product['id'] ?>">
                                 <p>
                                     <span class="price"><?= $product['price'] ?></span>
                                     <span class="currency">руб.</span>

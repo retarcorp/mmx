@@ -18,21 +18,28 @@ $path = Yii::getAlias('@frontend') . '/web/uploads/' . Products::FOLDER_1C . '/'
                 <a class="backward-link" href="catalogue">Назад к списку позиций</a>
                 <div class="position__content">
                     <div class="position__image slider">
-                        <?php foreach (glob($path . "*.{jpg,png,gif}", GLOB_BRACE) as $filename) {
-                            $img = str_replace(Yii::getAlias('@frontend') . '/web', '', $filename);
-                            ?>
+                        <?php
+                        $path = Yii::getAlias('@frontend') . '/web/uploads/' . Products::FOLDER_1C . '/' . $post->img_title . '/';
+                        if (!file_exists(Yii::getAlias('@frontend') . '/web/' . $path)) { ?>
                             <div>
-                                <img src="<?= $img ?>">
+                                <img src="/img/sections/popular-product-1.png">
                             </div>
+                        <?php } else {
+                            foreach (glob($path . "*.{jpg,png,gif}", GLOB_BRACE) as $filename) {
+                                $img = str_replace(Yii::getAlias('@frontend') . '/web', '', $filename); ?>
+                                <div>
+                                    <img src="<?= $img ?>">
+                                </div>
+                            <?php } ?>
                         <?php } ?>
                     </div>
 
                     <div class="position__description">
                         <h3><?= "Арт. {$post->vendor_code}" ?></h3>
                         <div class="position__cart-options">
-                            <span class="price"><span><?= $post->price?></span> руб.</span>
+                            <span class="price"><span><?= $post->price ?></span> руб.</span>
                             <input class="amount" type="number" value="0" min="0">
-                            <input type="hidden" value="<?= $post->id?>">
+                            <input type="hidden" value="<?= $post->id ?>">
                             <button class="default-button color cart-button">В корзину</button>
                         </div>
 

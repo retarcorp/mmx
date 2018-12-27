@@ -1,9 +1,9 @@
 <?php
 
 use common\models\Products;
+use frontend\assets\AppAsset;
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
-use frontend\assets\AppAsset;
 
 /* @var $this yii\web\View */
 /* @var $posts Products */
@@ -31,12 +31,17 @@ AppAsset::register($this);
                                 <div class="popular__image">
                                     <?php
                                     $path = Yii::getAlias('@frontend') . '/web/uploads/' . Products::FOLDER_1C . '/' . $post->img_title . '/';
-                                    foreach (glob($path . "*.{jpg,png,gif}", GLOB_BRACE) as $filename) {
-                                        $img = str_replace(Yii::getAlias('@frontend') . '/web', '', $filename);
-                                        ?>
+                                    if (!file_exists(Yii::getAlias('@frontend') . '/web/' . $path)) { ?>
                                         <div>
-                                            <img src="<?= $img ?>">
+                                            <img src="/img/sections/popular-product-1.png">
                                         </div>
+                                    <?php } else {
+                                        foreach (glob($path . "*.{jpg,png,gif}", GLOB_BRACE) as $filename) {
+                                            $img = str_replace(Yii::getAlias('@frontend') . '/web', '', $filename); ?>
+                                            <div>
+                                                <img src="<?= $img ?>">
+                                            </div>
+                                        <?php } ?>
                                     <?php } ?>
                                 </div>
                                 <h3><?= "Арт. {$post->vendor_code}" ?></h3>
@@ -44,8 +49,9 @@ AppAsset::register($this);
                                     <?= $post->product_name ?>
                                 </div>
                                 <div class="popular__options">
-                                    <input type="hidden" value="<?= $post->id?>">
-                                    <p> <span class="price"><?= $post->price ?></span> <span class="currency">руб.</span></p>
+                                    <input type="hidden" value="<?= $post->id ?>">
+                                    <p><span class="price"><?= $post->price ?></span> <span class="currency">руб.</span>
+                                    </p>
                                     <button class="default-button color cart-button"><a href="#">В корзину</a></button>
                                 </div>
                             </li>

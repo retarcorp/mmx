@@ -47,6 +47,12 @@ return [
                 ],
             ],
         ],
+        'mailer' => [
+            'class' => 'yii\swiftmailer\Mailer',
+
+            'useFileTransport' => false,
+
+        ],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
