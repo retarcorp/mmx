@@ -19,7 +19,8 @@
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0 || ~2.1.0",
         "mihaildev/yii2-ckeditor": "dev-master",
-        "kartik-v/yii2-widget-fileinput": "^1.0@dev"
+        "kartik-v/yii2-widget-fileinput": "^1.0@dev",
+        "ruskid/yii2-csv-importer": "dev-master"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

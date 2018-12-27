@@ -4,6 +4,7 @@ use common\models\Articles;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
+use frontend\assets\AppAsset;
 
 /* @var $this yii\web\View */
 /* @var $posts Articles */
@@ -11,6 +12,7 @@ use yii\widgets\LinkPager;
 
 $this->title = 'Блог';
 
+AppAsset::register($this);
 ?>
 
 <div class="header__bottom light">
