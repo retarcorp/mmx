@@ -14,8 +14,6 @@ use yii\widgets\ActiveForm;
 
 <div class="articles-form">
 
-    <?= Alert::widget() ?>
-
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]); ?>
 
     <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>

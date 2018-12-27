@@ -8,11 +8,11 @@ window.onload = () => {
         closeOrderFormButton = $('[data-close-order-form]'),
         orderOverlay = $('[data-order-form]'),
         orderModal = $('[data-order-form-modal]');
-    
+
     function checkEvent(e) {
         var currentTarget = $(e.currentTarget),
             target = $(e.target);
-        
+
         if (openOrderFormButton.is(target)) {
             openOrderModal();
             return null;
@@ -49,22 +49,22 @@ window.onload = () => {
     openOrderFormButton.on('click', checkEvent);
     closeOrderFormButton.on('click', checkEvent);
     orderOverlay.on('click', checkEvent);
-    
-    window.onscroll = function(e) {
+
+    window.onscroll = function (e) {
         var scrollTop = window.scrollY,
             heightOfHeaderMenu = headerMenu.height();
-        
+
         if (scrollTop >= topOfHeaderMenu) {
             headerMenu.addClass('fixed-scroll');
             // wrapper.css('padding-top', heightOfHeaderMenu+'px');
-            
+
             return null;
         }
-        
+
         headerMenu.removeClass('fixed-scroll');
         // wrapper.css('padding-top', '20px');
-    }
-    
+    };
+
     slickContainer.slick({
         slidesToShow: 4,
         arrows: true,
