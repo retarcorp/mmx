@@ -127,7 +127,7 @@ class Products extends \yii\db\ActiveRecord
     {
         return Yii::$app->mailer->compose()
             ->setTo(Yii::$app->params['adminEmail'])
-            ->setFrom('snickers.08@list.ru')
+            ->setFrom('levchuk08@gmail.com')
             ->setSubject('Заказ с сайта')
             ->setTextBody($text)
             ->send();
