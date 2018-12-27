@@ -4,12 +4,11 @@
 
 /* @var $content string */
 
-use frontend\assets\AppAsset;
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 $model = Yii::$app->params['products'];
-AppAsset::register($this);
+
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

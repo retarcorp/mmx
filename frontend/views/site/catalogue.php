@@ -2,10 +2,12 @@
 
 use common\models\Category;
 use yii\helpers\Html;
+use frontend\assets\AppAsset;
 
 /* @var $this yii\web\View */
 /* @var $posts Category */
 
+AppAsset::register($this);
 $this->title = 'Каталог';
 ?>
 

@@ -29,6 +29,8 @@ class Products extends \yii\db\ActiveRecord
     const STATUS_ACTIVE = '0';
     const STATUS_NONACTIVE = '1';
 
+    public $name;
+    public $phone;
     /**
      * {@inheritdoc}
      */
@@ -43,7 +45,10 @@ class Products extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['code', 'vendor_code', 'product_name', 'img'], 'required'],
+            [['code', 'vendor_code', 'product_name', 'img', 'name','phone'], 'required'],
+            [['phone'], 'match', 'pattern' => '^(\+375|80)\s(29|25|44|33|17)\s(\d{3})\s(\d{2})\s(\d{2})$',
+                'message' => 'Телефон должен быть в формате +375/80 ХХ ХХХ ХХ ХХ'
+            ],
             [['code', 'id'], 'integer'],
             [['product_name', 'status'], 'string'],
             [['vendor_code', 'unit', 'manufacturer', 'availability', 'delivery_time', 'assembly_time', 'img', 'img_title'], 'string', 'max' => 255],
@@ -69,12 +74,14 @@ class Products extends \yii\db\ActiveRecord
             'status' => 'Отображать на сайте',
             'img' => 'Папка с картинкой',
             'img_title' => 'Заголовок картинки',
+            'name'=> 'Ваше имя',
+            'phone'=> 'Телефон'
         ];
     }
 
     public function parseFile()
     {
-        $path = Yii::getAlias('@frontend') . '/web/uploads/' . self::FOLDER_1C . '/exp_22.12.2018.csv';
+        $path = Yii::getAlias('@frontend') . '/web/uploads/' . self::FOLDER_1C . '/exp_' . date('d.m.Y') . '.csv';
 
         $importer = new CSVImporter();
         $importer->setData(new CSVReader([
@@ -89,27 +96,25 @@ class Products extends \yii\db\ActiveRecord
         Yii::$app->db->createCommand()->truncateTable(self::tableName())->execute();
 
         foreach ($data as $item) {
-            if ($item[0] !== '47098' && $item[0] !== '46755' && $item[0] !== '46004') {
-                $model = new self();
-                $model->code = $item[0];
-                $model->vendor_code = $this->getUTF8Encode($item[1]);
-                $model->product_name = (string)$this->getUTF8Encode($item[2]);
-                $model->unit = isset($item[3]) ? $this->getUTF8Encode($item[3]) : null;
-                $model->manufacturer = isset($item[4]) ? $this->getUTF8Encode($item[4]) : null;
-                $model->price = isset($item[5]) ? $item[5] : null;
-                $model->availability = isset($item[6]) ? $this->getUTF8Encode($item[6]) : null;
-                $model->delivery_time = isset($item[7]) ? $item[7] : null;
-                $model->assembly_time = isset($item[8]) ? $item[8] : null;
-                $model->status = isset($item[9]) ? $item[9] : null;;
-                $model->img = isset($item[10]) ? $item[10] : null;
-                $model->img_title = isset($item[11]) ? $this->getUTF8Encode($item[11]) : null;
-                if (!$model->save()) {
-                    var_dump($model->errors);
-                };
-            }
+            $model = new self();
+            $model->code = $item[0];
+            $model->vendor_code = $this->getUTF8Encode($item[1]);
+            $model->product_name = (string)$this->getUTF8Encode($item[2]);
+            $model->unit = isset($item[3]) ? $this->getUTF8Encode($item[3]) : null;
+            $model->manufacturer = isset($item[4]) ? $this->getUTF8Encode($item[4]) : null;
+            $model->price = isset($item[5]) ? $item[5] : null;
+            $model->availability = isset($item[6]) ? $this->getUTF8Encode($item[6]) : null;
+            $model->delivery_time = isset($item[7]) ? $item[7] : null;
+            $model->assembly_time = isset($item[8]) ? $item[8] : null;
+            $model->status = isset($item[9]) ? $item[9] : null;;
+            $model->img = isset($item[10]) ? $item[10] : null;
+            $model->img_title = isset($item[11]) ? $this->getUTF8Encode($item[11]) : null;
+            if (!$model->save()) {
+                var_dump($model->errors);
+            };
         }
 
-        return 'Done!';
+        echo "Done!\n";
     }
 
     private function getUTF8Encode($value)
@@ -121,7 +126,6 @@ class Products extends \yii\db\ActiveRecord
     {
         return Yii::$app->mailer->compose()
             ->setTo(Yii::$app->params['adminEmail'])
-            ->setFrom('no-replay@witm.by')
             ->setSubject('Заказ с сайта')
             ->setTextBody($text)
             ->send();

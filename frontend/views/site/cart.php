@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\widgets\MaskedInput;
 
 /* @var $this yii\web\View */
 /* @var $posts array */
@@ -82,6 +83,18 @@ $this->title = 'Корзина';
                     'action' => 'order'
                 ]) ?>
 
+                <?= $form->field($model, 'name')->textInput(['placeholder'=> 'Ваше имя'])->label(false)?>
+
+                <?= $form->field($model, 'phone')->widget(MaskedInput::class, [
+                    'mask' => [
+                        '+375 99 999 99 99',
+                        '80 99 999 99 99'
+                    ],
+                    'options' => [
+                        'placeholder' => $model->getAttributeLabel('phone'),
+                        'class'=> 'form-control'
+                    ]
+                ])->label(false) ?>
                 <?php foreach ($posts as $post) {
                     echo $form->field($model, 'id['.$post['product']->id.']')->hiddenInput(['value' => $post[0]])->label(false);
                 } ?>

@@ -234,7 +234,10 @@ class SiteController extends Controller
 ";
                 $sum += $price;
             }
-            $text .= "Общая сумма заказа: {$sum}";
+            $text .= "Общая сумма заказа: {$sum}\n\n";
+            $text .= "Данные покупателя:\n";
+            $text .= "Имя: {$model->name}\n";
+            $text .= "Телефон: {$model->phone}\n\n\n";
 
             $model->sendEmailOrder($text);
 

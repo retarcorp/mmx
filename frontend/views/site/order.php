@@ -17,9 +17,9 @@
         </div>
     </section>
 
-    <section class="cart">
+    <section class="cart" style="text-align: center;padding-top: 60px;">
         <div class="container">
-            <h2>Ваша заявка принята! Менеджер свяжется с вами в блажийшее время</h2>
+            <h2>Ваша заявка принята! Менеджер свяжется с вами в ближайшее время!</h2>
         </div>
     </section>
 </div>

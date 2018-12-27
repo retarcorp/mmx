@@ -3,11 +3,13 @@
 use common\models\Products;
 use yii\helpers\Url;
 use yii\widgets\LinkPager;
+use frontend\assets\AppAsset;
 
 /* @var $this yii\web\View */
 /* @var $posts Products */
 /* @var $pages \yii\data\Pagination */
 
+AppAsset::register($this);
 ?>
 
 

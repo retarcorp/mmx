@@ -92,6 +92,8 @@ function setCount(id, price, count) {
             } else {
                 count = arrayIds[id] + 1
             }
+        } else {
+            count = 1;
         }
     }
 

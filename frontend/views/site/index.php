@@ -1,10 +1,12 @@
 <?php
 
 use yii\widgets\Pjax;
+use frontend\assets\AppAsset;
 
 /* @var $this yii\web\View */
 
 $this->title = Yii::$app->name;
+AppAsset::register($this);
 ?>
 
 <div class="header__bottom">

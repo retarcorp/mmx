@@ -1,10 +1,12 @@
 <?php
 
 use common\models\Products;
-
+use frontend\assets\AppAsset;
 
 /* @var $this yii\web\View */
 /* @var $post Products */
+
+AppAsset::register($this);
 
 $path = Yii::getAlias('@frontend') . '/web/uploads/' . Products::FOLDER_1C . '/' . $post->img_title . '/';
 ?>

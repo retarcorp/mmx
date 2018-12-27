@@ -1,8 +1,11 @@
 <?php
 
+use frontend\assets\AppAsset;
+
 /* @var $article \common\models\Articles */
 /* @var $this yii\web\View */
 
+AppAsset::register($this);
 $this->title = Yii::$app->name;
 ?>
 
