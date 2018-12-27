@@ -46,7 +46,7 @@ class ContactForm extends Model
     {
         return Yii::$app->mailer->compose()
             ->setTo(Yii::$app->params['adminEmail'])
-            ->setFrom('no-replay@witm.by')
+            ->setFrom('snickers.08@list.ru')
             ->setSubject('Запрос на сборку устройства')
             ->setTextBody("Номер телефона клиента {$this->phone}")
             ->send();

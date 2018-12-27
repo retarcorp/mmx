@@ -31,6 +31,7 @@ class Products extends \yii\db\ActiveRecord
 
     public $name;
     public $phone;
+
     /**
      * {@inheritdoc}
      */
@@ -45,7 +46,7 @@ class Products extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['code', 'vendor_code', 'product_name', 'img', 'name','phone'], 'required'],
+            [['code', 'vendor_code', 'product_name', 'img'], 'required'],
             [['phone'], 'match', 'pattern' => '^(\+375|80)\s(29|25|44|33|17)\s(\d{3})\s(\d{2})\s(\d{2})$',
                 'message' => 'Телефон должен быть в формате +375/80 ХХ ХХХ ХХ ХХ'
             ],
@@ -74,8 +75,8 @@ class Products extends \yii\db\ActiveRecord
             'status' => 'Отображать на сайте',
             'img' => 'Папка с картинкой',
             'img_title' => 'Заголовок картинки',
-            'name'=> 'Ваше имя',
-            'phone'=> 'Телефон'
+            'name' => 'Ваше имя',
+            'phone' => 'Телефон'
         ];
     }
 
@@ -126,6 +127,7 @@ class Products extends \yii\db\ActiveRecord
     {
         return Yii::$app->mailer->compose()
             ->setTo(Yii::$app->params['adminEmail'])
+            ->setFrom('snickers.08@list.ru')
             ->setSubject('Заказ с сайта')
             ->setTextBody($text)
             ->send();
