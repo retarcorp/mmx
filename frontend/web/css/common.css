@@ -745,9 +745,10 @@ button.header-callback-item.button {
     margin-right: 20px;
 }
 
-.field-products-name, .field-products-phone{
+.field-products-name, .field-products-phone {
     text-align: center;
 }
+
 .form-control {
     margin: 10px;
     width: 200px;
@@ -766,6 +767,7 @@ button.header-callback-item.button {
     -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
+
 .position__cart-options .amount {
     font-size: 1.6rem;
     max-width: 40px;
@@ -781,6 +783,10 @@ button.header-callback-item.button {
 .position__specification h4,
 .position__specification p {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.current a {
+    border-bottom: 2px solid #000000;
 }
 
 .cart {
@@ -1344,6 +1350,78 @@ button.close {
     opacity: .2;
 }
 
+.overlay {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    padding: 40px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgba(0, 0, 0, 0.75);
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.35s ease-in-out;
+    max-height: 100vh;
+    overflow-y: auto;
+    z-index: 10000;
+}
+
+.overlay.open {
+    opacity: 1;
+    pointer-events: inherit;
+}
+
+.overlay .modal {
+    background: rgb(204, 204, 204);
+    text-align: center;
+    padding: 40px 80px;
+    box-shadow: 0px 1px 10px rgba(255, 255, 255, 0.35);
+    opacity: 0;
+    pointer-events: none;
+    transition: 0.35s ease-in-out;
+    max-height: 100vh;
+    overflow-y: auto;
+}
+
+.overlay .modal.open {
+    opacity: 1;
+    pointer-events: inherit;
+}
+
+.overlay .modal.open .content {
+    transform: translate(0, 0px);
+    opacity: 1;
+}
+
+.overlay .modal .content {
+    transform: translate(0, -10px);
+    opacity: 0;
+    transition: 0.35s ease-in-out;
+}
+
+.overlay .modal .title {
+    margin-top: 0;
+    width: 100% !important;
+}
+
+.call-form input {
+    padding: 0 10px 8px;
+    background: none;
+    border: none;
+    border-bottom: 2px solid rgb(34, 34, 34);
+    outline: none;
+    box-shadow: none;
+    border-radius: 0;
+}
+
+.call-form + .default-button {
+    margin-top: 20px;
+}
+
 @media only screen and (max-width: 900px) {
     .header__top.fixed-scroll {
         position: initial;
@@ -1562,6 +1640,7 @@ button.close {
         margin-bottom: 10px;
     }
 }
+
 
 @media only screen and (max-width: 560px) {
     .order-form__modal {
