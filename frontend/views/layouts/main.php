@@ -6,8 +6,10 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\widgets\Pjax;
 
 $model = Yii::$app->params['products'];
+$contactModel = Yii::$app->params['contacts'];
 
 ?>
 <?php $this->beginPage() ?>
@@ -34,14 +36,15 @@ $model = Yii::$app->params['products'];
                 <nav class="header__navigation">
                     <ul class="header__navigation-list">
                         <li class="header__navigation-list-item"><a href="/">Главная</a></li>
-                        <li class="header__navigation-list-item"><a href="/site/catalogue">Каталог</a></li>
+                        <li class="header__navigation-list-item"><a href="/category">Каталог</a></li>
                         <li class="header__navigation-list-item"><a href="/blog">Блог</a></li>
-                        <li class="header__navigation-list-item"><a href="/site/contacts">Контакты</a></li>
+                        <li class="header__navigation-list-item"><a href="/contacts">Контакты</a></li>
                     </ul>
                 </nav>
                 <div class="header__callback">
                     <p class="header__callback-item number"><a href="tel:+375296500341">+375 (29) 650 03 41</a></p>
-                    <button class="header-callback-item default-button"><a href="tel:+375296500341">Заказать звонок</a>
+                    <button class="header-callback-item default-button open-modal" data-modal="#modal1">Заказать
+                        звонок
                     </button>
                 </div>
 
@@ -83,6 +86,11 @@ $model = Yii::$app->params['products'];
 
         </div>
 
+        <div class='modal' id='modal1'>
+            <?php Pjax::begin(['enablePushState' => false, 'timeout' => false]) ?>
+            <?= $this->render('../site/_call_form', ['model' => $contactModel]) ?>
+            <?php Pjax::end() ?>
+        </div>
         <?php $this->endBody() ?>
 </body>
 </html>

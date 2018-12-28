@@ -26,6 +26,7 @@ use yii\widgets\MaskedInput;
         'placeholder' => $model->getAttributeLabel('phone')
     ]
 ])->label(false) ?>
+
 <?= Html::submitButton('Отправить', ['class' => 'default-button bottom-border']) ?>
 
 <?php ActiveForm::end() ?>

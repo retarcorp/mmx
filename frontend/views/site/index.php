@@ -6,6 +6,7 @@ use yii\widgets\Pjax;
 /* @var $this yii\web\View */
 
 $this->title = Yii::$app->name;
+
 AppAsset::register($this);
 ?>
 
@@ -42,7 +43,7 @@ AppAsset::register($this);
                     <div class="call-form__advertise">
                         <p class="call-form__advertise-text">В нашем каталоге более 300 моделей распределительных
                             устройств!</p>
-                        <button class="default-button color"><a href="/site/catalogue">Открыть каталог</a></button>
+                        <button class="default-button color"><a href="/category">Открыть каталог</a></button>
                     </div>
                 </div>
             </div>
@@ -166,7 +167,7 @@ AppAsset::register($this);
         </div>
 
         <div class="popular__section-options">
-            <button class="default-button color"><a href="#">Открыть весь каталог</a></button>
+            <button class="default-button color"><a href="/category">Открыть весь каталог</a></button>
         </div>
     </section>
 
@@ -222,10 +223,11 @@ AppAsset::register($this);
                 <p>В нашем каталоге - более 300 моделей различных распределительных устройств -
                     подберите оптимальное РУ для своей задачи: <a href="#">Перейти в каталог</a></p>
                 <p>Воспользуйтесь нашим онлайн-конструктором для подбора и расчета стоимости
-                    распределительного устройства под Ваши конкретные нужды: <a href="#">Открыть конструктор</a></p>
+                    распределительного устройства под Ваши конкретные нужды: <a href="/constructor">Открыть
+                        конструктор</a></p>
                 <p>Оставьте заявку, наш менеджер свяжется с Вами и поможет подобрать
                     распределительное устройство, оптимальное по цене и конфигурации для Вашей
-                    потребности: <a href="#">Заказать звонок</a></p>
+                    потребности: <a href="#" class=" open-modal" data-modal="#modal1">Заказать звонок</a></p>
             </div>
         </div>
 

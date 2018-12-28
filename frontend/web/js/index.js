@@ -1,0 +1,58 @@
+$(function () {
+    var location = window.location.href;
+    var cur_url = '/' + location.split('/').pop();
+
+    $('.header__navigation-list li').each(function () {
+        var link = $(this).find('a').attr('href');
+
+        if (cur_url == link) {
+            $(this).addClass('current');
+        }
+    });
+});
+
+$(".modal").each( function(){
+    $(this).wrap('<div class="overlay"></div>')
+});
+
+$(".open-modal").on('click', function(e){
+    e.preventDefault();
+    e.stopImmediatePropagation;
+
+    var $this = $(this),
+        modal = $($this).data("modal");
+
+    $(modal).parents(".overlay").addClass("open");
+    setTimeout( function(){
+        $(modal).addClass("open");
+    }, 350);
+
+    $(document).on('click', function(e){
+        var target = $(e.target);
+
+        if ($(target).hasClass("overlay")){
+            $(target).find(".modal").each( function(){
+                $(this).removeClass("open");
+            });
+            setTimeout( function(){
+                $(target).removeClass("open");
+            }, 350);
+        }
+
+    });
+
+});
+
+$(".close-modal").on('click', function(e){
+    e.preventDefault();
+    e.stopImmediatePropagation;
+
+    var $this = $(this),
+        modal = $($this).data("modal");
+
+    $(modal).removeClass("open");
+    setTimeout( function(){
+        $(modal).parents(".overlay").removeClass("open");
+    }, 350);
+
+});

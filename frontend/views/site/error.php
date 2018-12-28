@@ -5,8 +5,10 @@
 /* @var $message string */
 /* @var $exception Exception */
 
+use frontend\assets\AppAsset;
 use yii\helpers\Html;
 
+AppAsset::register($this);
 $this->title = $name;
 ?>
 <div class="site-error">

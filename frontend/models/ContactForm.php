@@ -2,6 +2,7 @@
 
 namespace frontend\models;
 
+use Yii;
 use yii\base\Model;
 
 /**
@@ -10,6 +11,7 @@ use yii\base\Model;
 class ContactForm extends Model
 {
     public $phone;
+    public $name;
 
     /**
      * {@inheritdoc}
@@ -17,6 +19,7 @@ class ContactForm extends Model
     public function rules(): array
     {
         return [
+            [['name'], 'safe'],
             [['phone'], 'required'],
             [['phone'], 'match', 'pattern' => '^(\+375|80)\s(29|25|44|33|17)\s(\d{3})\s(\d{2})\s(\d{2})$',
                 'message' => 'Телефон должен быть в формате +375/80 ХХ ХХХ ХХ ХХ'
@@ -32,6 +35,7 @@ class ContactForm extends Model
     {
         return [
             'phone' => 'Ваш телефон',
+            'name' => 'Ваше имя'
         ];
     }
 
@@ -43,15 +47,21 @@ class ContactForm extends Model
      */
     public function sendEmail(): bool
     {
-        $to = "levchuk08@gmail.com";
+        return Yii::$app->mailer->compose()
+            ->setTo(Yii::$app->params['adminEmail'])
+            ->setFrom('levchuk08@gmail.com')
+            ->setSubject('Заказ с сайта')
+            ->setTextBody("Номер телефона клиента: {$this->phone}")
+            ->send();
+    }
 
-        $subject = "Запрос на сборку устройства";
-
-        $message = "Номер телефона клиента {$this->phone}";
-
-        $headers = "Content-type: text/html; charset=utf-8 \r\n";
-        $headers .= "From: <no-replay@щитм.бел>\r\n";
-
-        return mail($to, $subject, $message, $headers);
+    public function sendOrderCall()
+    {
+        return Yii::$app->mailer->compose()
+            ->setTo(Yii::$app->params['adminEmail'])
+            ->setFrom('levchuk08@gmail.com')
+            ->setSubject('Заказать звонок')
+            ->setTextBody("Имя: {$this->name}\nНомер телефона: {$this->phone}")
+            ->send();
     }
 }
