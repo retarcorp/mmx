@@ -45,6 +45,9 @@ return [
                 'yii\bootstrap\BootstrapAsset' => [
                     'css' => [],
                 ],
+                'yii\web\JqueryAsset' => [
+                    'jsOptions' => [ 'position' => \yii\web\View::POS_HEAD ],
+                ],
             ],
         ],
         'mailer' => [
@@ -60,6 +63,10 @@ return [
                 '' => 'site/index',
                 'site/blog/<page:\d+>' => 'blog',
                 'blog/' => 'site/blog',
+                'contacts/' => 'site/contacts',
+                'catalogue/' => 'site/catalogue',
+                'category/' => 'site/category',
+                'constructor/' => 'site/constructor',
                 '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
             ],
         ],

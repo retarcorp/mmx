@@ -12,7 +12,7 @@ class ContactsAsset extends AssetBundle
         'css/common.css',
     ];
     public $js = [
-
+        'js/index.js'
     ];
     public $depends = [
         'yii\web\YiiAsset'

@@ -22,6 +22,7 @@ class SiteController extends Controller
     public function __construct(string $id, Module $module, array $config = [])
     {
         Yii::$app->params['products'] = new Products();
+        Yii::$app->params['contacts'] = new ContactForm();
         parent::__construct($id, $module, $config);
     }
 
@@ -87,7 +88,7 @@ class SiteController extends Controller
             ->all();
         return $this->render('index', [
             'model' => $model,
-            'products'=> $products
+            'products' => $products
         ]);
     }
 
@@ -248,6 +249,24 @@ class SiteController extends Controller
             $model->sendEmailOrder($text);
 
             return $this->render('order');
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    /**
+     * @return string|\yii\web\Response
+     */
+    public function actionSendCall()
+    {
+        $model = new ContactForm();
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->sendOrderCall() === true) {
+                Yii::$app->session->setFlash('success', 'Ваша заявка отправлена');
+                return $this->renderAjax('_call_form', ['model' => $model]);
+            };
+            Yii::$app->session->setFlash('error', 'Произошла ошибка. Попробуйте снова');
+            return $this->renderAjax('_call_form', ['model' => $model]);
         }
 
         return $this->redirect(Yii::$app->request->referrer);
