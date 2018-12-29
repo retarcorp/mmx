@@ -24,4 +24,20 @@
         </div>
     </div>
 
+    <script src="http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU" type="text/javascript"></script>
+    <script type="text/javascript">
+        ymaps.ready(init);
+
+        function init() {
+            let myMap = new ymaps.Map("google-map", {
+                center: [53.872045, 27.57],
+                zoom: 16
+            }, {
+                searchControlProvider: 'yandex#search'
+            });
+
+            myMap.geoObjects
+                .add(new ymaps.Placemark([53.871355, 27.577058]));
+        }
+    </script>
 </section>
