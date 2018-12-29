@@ -15,7 +15,6 @@ use yii\base\Module;
 use yii\data\Pagination;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
-use yii\helpers\Json;
 use yii\web\Controller;
 
 /**
@@ -291,6 +290,16 @@ class SiteController extends Controller
 
         $model = new ConstructorProduct();
         if ($model->load(Yii::$app->request->post())) {
+            if (!isset($model->category)) {
+                $model->addError($model->category, 'Category is required');
+            }
+            if (!isset($model->socket)) {
+                $model->addError($model->socket, 'Socket is required');
+            }
+            if (!empty($model->errors)) {
+                var_dump($model->errors);exit;
+                return json_encode($model->errors);
+            }
             $result = [];
             $products = $model->getProducts();
             foreach ($products as $product) {
@@ -300,8 +309,10 @@ class SiteController extends Controller
                 $result[]['url'] = Yii::$app->request->hostInfo . '/site/position?=' . $product['id'];
                 $result[]['img'] = Yii::$app->request->hostInfo . '/uploads/1C/' . $product['img'];
             }
-            
+
             return json_encode($result);
+        } else {
+            return json_encode($model->errors);
         }
         return Yii::$app->request->referrer;
     }

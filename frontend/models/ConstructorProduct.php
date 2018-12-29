@@ -8,9 +8,9 @@ use yii\base\Model;
 class ConstructorProduct extends Model
 {
 
-    public $category = '1';
-    public $socket = [4 => '2'];
-    public $protected = ['2'];
+    public $category;
+    public $socket;
+    public $protected;
 
     /**
      * {@inheritdoc}
@@ -18,9 +18,18 @@ class ConstructorProduct extends Model
     public function rules(): array
     {
         return [
-            [['category', 'socket'], 'required'],
+            [['category', 'socket', 'protected'], 'required'],
             [['category'], 'integer'],
             [['socket', 'protected'], 'each', 'rule' => ['integer']]
+        ];
+    }
+
+    public function activeAttributes()
+    {
+        return [
+            'category' => 'Category',
+            'socket' => 'Socket',
+            'protected' => 'Protected'
         ];
     }
 
@@ -32,7 +41,8 @@ class ConstructorProduct extends Model
         $protected = implode(',', $this->protected);
 
 
-        $query = "select * from (
+        if (isset($this->protected)) {
+            $query = "select * from (
                       select * from socket_2_constructor
                       where socket_id in ({$socketIds})
                       and constructor_id in (select constructor_id
@@ -45,6 +55,20 @@ class ConstructorProduct extends Model
        where category = {$this->category}
 group by products.vendor_code
 ";
+        } else {
+            $query = "select * from (
+                      select * from socket_2_constructor
+                      where socket_id in ({$socketIds})
+                      and constructor_id in (select constructor_id
+                                from protected_2_constructor
+                                where protected_id in ({$protected})
+                  ) and socket_2_constructor.count in ({$socketCount})
+     ) as result
+       left join constructor on constructor.id = result.constructor_id
+       left join products on constructor.vendor_code = products.vendor_code
+group by products.vendor_code
+";
+        }
 
         $connection = Yii::$app->getDb();
         $command = $connection->createCommand($query);
