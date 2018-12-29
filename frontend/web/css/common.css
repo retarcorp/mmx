@@ -517,6 +517,7 @@ button.header-callback-item.button {
 
 .popular__product-description {
     font-size: 1.3rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
 
 .popular__options {
@@ -720,9 +721,10 @@ button.header-callback-item.button {
 .position__image img {
     top: 0;
     left: 0;
-    width: 100%;
+    width: 50%;
     height: 100%;
     object-fit: contain;
+    margin: auto;
 }
 
 .slick-prev:before, .slick-next:before {
