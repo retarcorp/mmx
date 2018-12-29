@@ -2,6 +2,10 @@
 
 use frontend\assets\AppAsset;
 
+/* @var $category \common\models\Constructor */
+/* @var $sockets \common\models\Socket */
+/* @var $protected \common\models\ProtectedTable */
+
 AppAsset::register($this);
 ?>
 
@@ -23,42 +27,18 @@ AppAsset::register($this);
                 <div class="constructor__stage">
                     <h3>Шаг 1. Формфактор устройства</h3>
                     <ul class="constructor__form-factor-list">
-                        <li class="constructor__form-factor-item">
-                            <div class="constructor__form-factor-image">
-                                <img src="/img/sections/about-it.png">
-                            </div>
-                            <h4>Стационарное</h4>
-                        </li>
-                        <li class="constructor__form-factor-item">
-                            <div class="constructor__form-factor-image">
-                                <img src="/img/sections/about-it.png">
-                            </div>
-                            <h4>Переносное</h4>
-                        </li>
-                        <li class="constructor__form-factor-item">
-                            <div class="constructor__form-factor-image">
-                                <img src="/img/sections/about-it.png">
-                            </div>
-                            <h4>Стационарное прорезиненное</h4>
-                        </li>
-                        <li class="constructor__form-factor-item">
-                            <div class="constructor__form-factor-image">
-                                <img src="/img/sections/about-it.png">
-                            </div>
-                            <h4>Переносное из стеклоплатстика</h4>
-                        </li>
-                        <li class="constructor__form-factor-item">
-                            <div class="constructor__form-factor-image">
-                                <img src="/img/sections/about-it.png">
-                            </div>
-                            <h4>Переносное прорезиненное</h4>
-                        </li>
-                        <li class="constructor__form-factor-item selected">
-                            <div class="constructor__form-factor-image">
-                                <img src="/img/sections/about-it.png">
-                            </div>
-                            <h4>Стационарное из пластика</h4>
-                        </li>
+
+                        <?php foreach ($category as $key => $item) {
+                            ?>
+                            <li class="constructor__form-factor-item">
+                                <div class="constructor__form-factor-image">
+                                    <img src="/img/sections/about-it.png">
+                                </div>
+                                <input type="hidden" class="category" value="<?= $key ?>"
+                                       name="ConstructorProduct[category]">
+                                <h4><?= $item ?></h4>
+                            </li>
+                        <?php } ?>
                     </ul>
                 </div>
 
@@ -67,104 +47,87 @@ AppAsset::register($this);
                     <div class="constructor__spoiler active">
                         <h4>Schuko</h4>
                         <div class="constructor__spoiler-content">
-                            <div class="constructor__amount">
-                                <span class="constructor__change-amount minus" data-amount-minus></span>
-                                <input class="constructor__amount-input" value="0" type="text">
-                                <span class="constructor__change-amount plus" data-amount-plus></span>
-                                <span class="constructor__amount-description">Розетка 220В стандартная</span>
-                            </div>
-                            <div class="constructor__amount">
-                                <span class="constructor__change-amount minus" data-amount-minus></span>
-                                <input class="constructor__amount-input" value="0" type="text">
-                                <span class="constructor__change-amount plus" data-amount-plus></span>
-                                <span class="constructor__amount-description">Розетка 380В стандартная</span>
-                            </div>
-                            <div class="constructor__amount">
-                                <span class="constructor__change-amount minus" data-amount-minus></span>
-                                <input class="constructor__amount-input" value="0" type="text">
-                                <span class="constructor__change-amount plus" data-amount-plus></span>
-                                <span class="constructor__amount-description">Розетка 380В стандартная</span>
-                            </div>
-                            <div class="constructor__amount">
-                                <span class="constructor__change-amount minus" data-amount-minus></span>
-                                <input class="constructor__amount-input" value="0" type="text">
-                                <span class="constructor__change-amount plus" data-amount-plus></span>
-                                <span class="constructor__amount-description">Розетка 380В стандартная</span>
-                            </div>
+                            <?php foreach ($sockets as $socket) {
+                                ?>
+                                <div class="constructor__amount">
+                                    <span class="constructor__change-amount minus" data-amount-minus></span>
+                                    <input class="constructor__amount-input" value="0" type="text">
+                                    <input class="socket" value="<?= $socket['id'] ?>" type="hidden" name="ConstructorProduct[socket][]>
+                                    <span class="constructor__change-amount plus" data-amount-plus></span>
+                                    <span class="constructor__amount-description"><?= $socket['title'] ?></span>
+                                </div>
+                            <?php } ?>
                         </div>
                     </div>
-                    <div class="constructor__spoiler">
-                        <h4>Общепромышленные</h4>
-                        <div class="constructor__spoiler-content">
-                            <div class="constructor__amount">
-                                <span class="constructor__change-amount minus" data-amount-minus></span>
-                                <input class="constructor__amount-input" value="0" type="text">
-                                <span class="constructor__change-amount plus" data-amount-plus></span>
-                                <span class="constructor__amount-description">Розетка 220В стандартная</span>
-                            </div>
-                            <div class="constructor__amount">
-                                <span class="constructor__change-amount minus" data-amount-minus></span>
-                                <input class="constructor__amount-input" value="0" type="text">
-                                <span class="constructor__change-amount plus" data-amount-plus></span>
-                                <span class="constructor__amount-description">Розетка 380В стандартная</span>
-                            </div>
-                            <div class="constructor__amount">
-                                <span class="constructor__change-amount minus" data-amount-minus></span>
-                                <input class="constructor__amount-input" value="0" type="text">
-                                <span class="constructor__change-amount plus" data-amount-plus></span>
-                                <span class="constructor__amount-description">Розетка 380В стандартная</span>
-                            </div>
-                            <div class="constructor__amount">
-                                <span class="constructor__change-amount minus" data-amount-minus></span>
-                                <input class="constructor__amount-input" value="0" type="text">
-                                <span class="constructor__change-amount plus" data-amount-plus></span>
-                                <span class="constructor__amount-description">Розетка 380В стандартная</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="constructor__spoiler">
-                        <h4>Низковольтные</h4>
-                        <div class="constructor__spoiler-content">
-                            <div class="constructor__amount">
-                                <span class="constructor__change-amount minus" data-amount-minus></span>
-                                <input class="constructor__amount-input" value="0" type="text">
-                                <span class="constructor__change-amount plus" data-amount-plus></span>
-                                <span class="constructor__amount-description">Розетка 220В стандартная</span>
-                            </div>
-                            <div class="constructor__amount">
-                                <span class="constructor__change-amount minus" data-amount-minus></span>
-                                <input class="constructor__amount-input" value="0" type="text">
-                                <span class="constructor__change-amount plus" data-amount-plus></span>
-                                <span class="constructor__amount-description">Розетка 380В стандартная</span>
-                            </div>
-                            <div class="constructor__amount">
-                                <span class="constructor__change-amount minus" data-amount-minus></span>
-                                <input class="constructor__amount-input" value="0" type="text">
-                                <span class="constructor__change-amount plus" data-amount-plus></span>
-                                <span class="constructor__amount-description">Розетка 380В стандартная</span>
-                            </div>
-                            <div class="constructor__amount">
-                                <span class="constructor__change-amount minus" data-amount-minus></span>
-                                <input class="constructor__amount-input" value="0" type="text">
-                                <span class="constructor__change-amount plus" data-amount-plus></span>
-                                <span class="constructor__amount-description">Розетка 380В стандартная</span>
-                            </div>
-                        </div>
-                    </div>
+                    <!--   <div class="constructor__spoiler">
+                           <h4>Общепромышленные</h4>
+                           <div class="constructor__spoiler-content">
+                               <div class="constructor__amount">
+                                   <span class="constructor__change-amount minus" data-amount-minus></span>
+                                   <input class="constructor__amount-input" value="0" type="text">
+                                   <span class="constructor__change-amount plus" data-amount-plus></span>
+                                   <span class="constructor__amount-description">Розетка 220В стандартная</span>
+                               </div>
+                               <div class="constructor__amount">
+                                   <span class="constructor__change-amount minus" data-amount-minus></span>
+                                   <input class="constructor__amount-input" value="0" type="text">
+                                   <span class="constructor__change-amount plus" data-amount-plus></span>
+                                   <span class="constructor__amount-description">Розетка 380В стандартная</span>
+                               </div>
+                               <div class="constructor__amount">
+                                   <span class="constructor__change-amount minus" data-amount-minus></span>
+                                   <input class="constructor__amount-input" value="0" type="text">
+                                   <span class="constructor__change-amount plus" data-amount-plus></span>
+                                   <span class="constructor__amount-description">Розетка 380В стандартная</span>
+                               </div>
+                               <div class="constructor__amount">
+                                   <span class="constructor__change-amount minus" data-amount-minus></span>
+                                   <input class="constructor__amount-input" value="0" type="text">
+                                   <span class="constructor__change-amount plus" data-amount-plus></span>
+                                   <span class="constructor__amount-description">Розетка 380В стандартная</span>
+                               </div>
+                           </div>
+                       </div>
+                       <div class="constructor__spoiler">
+                           <h4>Низковольтные</h4>
+                           <div class="constructor__spoiler-content">
+                               <div class="constructor__amount">
+                                   <span class="constructor__change-amount minus" data-amount-minus></span>
+                                   <input class="constructor__amount-input" value="0" type="text">
+                                   <span class="constructor__change-amount plus" data-amount-plus></span>
+                                   <span class="constructor__amount-description">Розетка 220В стандартная</span>
+                               </div>
+                               <div class="constructor__amount">
+                                   <span class="constructor__change-amount minus" data-amount-minus></span>
+                                   <input class="constructor__amount-input" value="0" type="text">
+                                   <span class="constructor__change-amount plus" data-amount-plus></span>
+                                   <span class="constructor__amount-description">Розетка 380В стандартная</span>
+                               </div>
+                               <div class="constructor__amount">
+                                   <span class="constructor__change-amount minus" data-amount-minus></span>
+                                   <input class="constructor__amount-input" value="0" type="text">
+                                   <span class="constructor__change-amount plus" data-amount-plus></span>
+                                   <span class="constructor__amount-description">Розетка 380В стандартная</span>
+                               </div>
+                               <div class="constructor__amount">
+                                   <span class="constructor__change-amount minus" data-amount-minus></span>
+                                   <input class="constructor__amount-input" value="0" type="text">
+                                   <span class="constructor__change-amount plus" data-amount-plus></span>
+                                   <span class="constructor__amount-description">Розетка 380В стандартная</span>
+                               </div>
+                           </div>
+                       </div>-->
                 </div>
 
                 <div class="constructor__stage">
                     <h3>Шаг 3. Защита</h3>
                     <ul class="constructor__security-list">
-                        <li class="constructor__security-list-item">
-                            <span>Без устройства защиты</span>
-                        </li>
-                        <li class="constructor__security-list-item">
-                            <span>Защитить каждую розетку автоматическими выключателями</span>
-                        </li>
-                        <li class="constructor__security-list-item selected">
-                            <span>Защитить каждую розетку диф-автоматом</span>
-                        </li>
+                        <?php foreach ($protected as $item) { ?>
+                            <li class="constructor__security-list-item">
+                                <input type="hidden" value="<?= $item['id'] ?>" name="ConstructorProduct[protected][]">
+                                <span><?= $item['name'] ?></span>
+                            </li>
+                        <?php } ?>
                         <li class="constructor__security-list-item">
                             <span>Свой вариант защиты: </span>
                             <input type="text">

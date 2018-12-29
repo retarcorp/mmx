@@ -4,13 +4,18 @@ namespace frontend\controllers;
 
 use common\models\Articles;
 use common\models\Category;
+use common\models\Constructor;
 use common\models\Products;
+use common\models\ProtectedTable;
+use common\models\Socket;
+use frontend\models\ConstructorProduct;
 use frontend\models\ContactForm;
 use Yii;
 use yii\base\Module;
 use yii\data\Pagination;
 use yii\filters\AccessControl;
 use yii\filters\VerbFilter;
+use yii\helpers\Json;
 use yii\web\Controller;
 
 /**
@@ -18,6 +23,7 @@ use yii\web\Controller;
  */
 class SiteController extends Controller
 {
+    public $enableCsrfValidation = false;
 
     public function __construct(string $id, Module $module, array $config = [])
     {
@@ -190,7 +196,15 @@ class SiteController extends Controller
 
     public function actionConstructor()
     {
-        return $this->render('constructor');
+        $category = Constructor::CATEGORY_ARRAY;
+        $sockets = Socket::find()->asArray()->all();
+        $protected = ProtectedTable::find()->asArray()->all();
+
+        return $this->render('constructor', [
+            'category' => $category,
+            'sockets' => $sockets,
+            'protected' => $protected
+        ]);
     }
 
     public function actionPosition($id)
@@ -270,5 +284,25 @@ class SiteController extends Controller
         }
 
         return $this->redirect(Yii::$app->request->referrer);
+    }
+
+    public function actionGetConstructorProduct()
+    {
+
+        $model = new ConstructorProduct();
+        if ($model->load(Yii::$app->request->post())) {
+            $result = [];
+            $products = $model->getProducts();
+            foreach ($products as $product) {
+                $result[]['vendor_code'] = $product['vendor_code'];
+                $result[]['product_name'] = mb_convert_encoding($product['product_name'], 'UTF-8', 'UTF-8');
+                $result[]['price'] = $product['price'];
+                $result[]['url'] = Yii::$app->request->hostInfo . '/site/position?=' . $product['id'];
+                $result[]['img'] = Yii::$app->request->hostInfo . '/uploads/1C/' . $product['img'];
+            }
+            
+            return json_encode($result);
+        }
+        return Yii::$app->request->referrer;
     }
 }
