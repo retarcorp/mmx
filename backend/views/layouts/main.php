@@ -41,6 +41,9 @@ AppAsset::register($this);
     ]);
     if (!Yii::$app->user->isGuest) {
         $menuItems = [
+            ['label' => 'Розетки', 'url' => ['socket/index']],
+            ['label' => 'Защиты', 'url' => ['protected-table/index']],
+            ['label' => 'Конструктор', 'url' => ['constructor/index']],
             ['label' => 'Каталог', 'url' => ['products/index']],
             ['label' => 'Категории', 'url' => ['category/index']],
             ['label' => 'Статьи', 'url' => ['/articles/index']],

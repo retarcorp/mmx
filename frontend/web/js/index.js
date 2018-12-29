@@ -11,11 +11,11 @@ $(function () {
     });
 });
 
-$(".modal").each( function(){
+$(".modal").each(function () {
     $(this).wrap('<div class="overlay"></div>')
 });
 
-$(".open-modal").on('click', function(e){
+$(".open-modal").on('click', function (e) {
     e.preventDefault();
     e.stopImmediatePropagation;
 
@@ -23,18 +23,18 @@ $(".open-modal").on('click', function(e){
         modal = $($this).data("modal");
 
     $(modal).parents(".overlay").addClass("open");
-    setTimeout( function(){
+    setTimeout(function () {
         $(modal).addClass("open");
     }, 350);
 
-    $(document).on('click', function(e){
+    $(document).on('click', function (e) {
         var target = $(e.target);
 
-        if ($(target).hasClass("overlay")){
-            $(target).find(".modal").each( function(){
+        if ($(target).hasClass("overlay")) {
+            $(target).find(".modal").each(function () {
                 $(this).removeClass("open");
             });
-            setTimeout( function(){
+            setTimeout(function () {
                 $(target).removeClass("open");
             }, 350);
         }
@@ -43,7 +43,7 @@ $(".open-modal").on('click', function(e){
 
 });
 
-$(".close-modal").on('click', function(e){
+$(".close-modal").on('click', function (e) {
     e.preventDefault();
     e.stopImmediatePropagation;
 
@@ -51,7 +51,7 @@ $(".close-modal").on('click', function(e){
         modal = $($this).data("modal");
 
     $(modal).removeClass("open");
-    setTimeout( function(){
+    setTimeout(function () {
         $(modal).parents(".overlay").removeClass("open");
     }, 350);
 
