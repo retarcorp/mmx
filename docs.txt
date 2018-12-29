@@ -1,0 +1,46 @@
+Конструктор находится по пути /frontend/views/site/constructor.php
+
+Контроллер который отвечает за вывод конструктора нахоидтся по пути /frontend/controllers/SiteController.php
+
+Метод называется actionConstructor();
+
+Метод для получения результат конструктора - actionGetConstructorProduct();
+Этот метод доступен по урлу  - '/site/get-constructor-product';
+Метод обрабатывает только POST-запрос с названием полей:
+
+ConstructorProduct[socket][key] : value
+ConstructorProduct[category] : value
+ConstructorProduct[protected][] : value
+
+category:
+значение - id выбранной категории
+
+socket:
+ключ - id розетки
+значение - количество выбранных(не может быть меньше 1);
+
+protected:
+передается в виде массива как и socket, значение id защиты, ключ может быть любым, в случае отсуствия не будет
+учитываться при поиске товара
+
+
+Метод actionGetConstructorProduct() вернет результат в виде Json-массива
+В случае отсутствия результатов массив будет пустой
+В случае не указания каких-либо параметров ответ с указанием какие нужно заполнить
+
+Пример запроса с использованием jquery:
+$.ajax({
+    url: '/site/get-constructor-product',
+    method: 'post',
+    data: {
+        ConstructorProduct: {
+            category: 1,
+            protected: [2],
+            socket: {4:2, 5:1}
+        }
+    },
+    success: function (data, textStatus) {
+        console.log(data)
+    }
+});
+

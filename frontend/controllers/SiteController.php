@@ -297,7 +297,6 @@ class SiteController extends Controller
                 $model->addError($model->socket, 'Socket is required');
             }
             if (!empty($model->errors)) {
-                var_dump($model->errors);exit;
                 return json_encode($model->errors);
             }
             $result = [];
