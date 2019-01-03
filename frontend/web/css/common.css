@@ -339,17 +339,17 @@ button.header-callback-item.button {
 
 .abouit-it__image {
     position: relative;
-    margin-right: 25px;
-    width: 50%;
+    width: 100%;
+    padding-left: -17px;
 }
 
 .about-it__description {
     margin-top: 20px;
-    width: 50%;
+    margin-left: -100px;
 }
 
 .abouit-it__image img {
-    width: 100%;
+    width: 55%;
 }
 
 .about-it h3 {
@@ -889,6 +889,19 @@ button.header-callback-item.button {
 .order-form.active {
     opacity: 1;
     pointer-events: all;
+}
+
+.clear-cart {
+    margin-left: 50px;
+    font-size: 14px;
+}
+
+.clear-cart:hover {
+    cursor: pointer;
+}
+
+.hidden {
+    display: none;
 }
 
 .order-form__modal {

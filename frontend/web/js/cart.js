@@ -62,6 +62,15 @@ $(function ($) {
 
     });
 
+    $('body').on('click', '.clear-cart', function () {
+        $(this).addClass('hidden');
+        window.localStorage.removeItem('cartId');
+        window.localStorage.removeItem('cartPrice');
+
+        $('.header__cart-items').find('.count span').text('0');
+        $('.header__cart-items').find('.price').text('0.00')
+    })
+
 });
 
 function setPrice(id, ids, price) {
@@ -112,7 +121,7 @@ function setCount(id, price, count) {
 function updateHeader(array, id) {
 
     let count = 0;
-    let price = 0;
+    let price = 0.00;
 
     let priceArray = JSON.parse(window.localStorage.getItem('cartPrice'));
 
@@ -130,8 +139,10 @@ function updateHeader(array, id) {
         });
     }
     if (array !== null) {
+        $('.clear-cart').removeClass('hidden');
         $('.position__cart-options').find('input[type=number]').val(array[id]);
     }
+
 
     $('.header__cart-items').find('.count span').text(count);
     $('.header__cart-items').find('.price').text(price);
