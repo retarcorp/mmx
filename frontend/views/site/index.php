@@ -59,7 +59,7 @@ AppAsset::register($this);
         <div class="container">
             <div class="about-it__float-window">
                 <div class="abouit-it__image">
-                    <img src="/img/sections/about-it.png">
+                    <img src="/img/sections/about-it.jpg">
                 </div>
 
                 <div class="about-it__description">

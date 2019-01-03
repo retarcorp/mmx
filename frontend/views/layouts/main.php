@@ -48,7 +48,10 @@ $contactModel = Yii::$app->params['contacts'];
                     </button>
                 </div>
 
+                <div class="clear-cart hidden">Очистить корзину</div>
+
                 <div class="header__cart">
+
                     <a href="/site/cart" id="cart">
                         <div class="header__cart-items">
                             <p class="header__cart-item count"><span>0</span> позиции</p>
