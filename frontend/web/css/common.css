@@ -207,7 +207,7 @@ button.header-callback-item.button {
 }
 
 .header__cart-item.price {
-    font-size: 1.8rem;
+    font-size: 1.6rem;
 }
 
 .header__bottom {
@@ -892,7 +892,7 @@ button.header-callback-item.button {
 }
 
 .clear-cart {
-    margin-left: 50px;
+    margin-left: 40px;
     font-size: 14px;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }

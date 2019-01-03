@@ -68,7 +68,7 @@ $(function ($) {
         window.localStorage.removeItem('cartPrice');
 
         $('.header__cart-items').find('.count span').text('0');
-        $('.header__cart-items').find('.price').text('0.00')
+        $('.header__cart-items').find('.price').text('0.00 руб')
     })
 
 });
@@ -145,7 +145,10 @@ function updateHeader(array, id) {
 
 
     $('.header__cart-items').find('.count span').text(count);
-    $('.header__cart-items').find('.price').text(price);
-
+    if (price === 0) {
+        $('.header__cart-items').find('.price').text('0.00 руб.');
+    } else {
+        $('.header__cart-items').find('.price').text(price + ' руб.');
+    }
 }
 
