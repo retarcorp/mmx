@@ -2,12 +2,13 @@
 
 namespace backend\controllers;
 
-use Yii;
-use common\models\Constructor;
 use backend\models\ConstructorSearch;
+use common\models\Constructor;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
+use yii\web\UploadedFile;
 
 /**
  * ConstructorController implements the CRUD actions for Constructor model.
@@ -35,61 +36,50 @@ class ConstructorController extends Controller
      */
     public function actionIndex()
     {
+        $model = new Constructor();
         $searchModel = new ConstructorSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
+            'model' => $model
         ]);
     }
 
     /**
      * Creates a new Constructor model.
-     * If creation is successful, the browser will be redirected to the 'view' page.
-     * @return mixed
+     * If creation is successful, the browser will be redirected to the 'index' page.
+     *
+     * @return \yii\web\Response
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
+     * @throws \yii\base\Exception
      */
     public function actionCreate()
     {
         $model = new Constructor();
 
-        if ($model->load(Yii::$app->request->post())&& $model->save()) {
-            Yii::$app->session->setFlash('success', 'Позиция успешно добавлена');
-            return $this->redirect(['update', 'id' => $model->id]);
+        if ($model->load(Yii::$app->request->post())) {
+            $model->default_name = UploadedFile::getInstance($model, 'default_name');
+            if ($model->upload($model->default_name) && $model->save()) {
+                Yii::$app->session->setFlash('success', 'Файл успешно загружен');
+            } else {
+                Yii::$app->session->setFlash('error', 'Произошла ошибка! Попробуйте еще раз');
+            }
         }
 
-        return $this->render('create', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Updates an existing Constructor model.
-     * If update is successful, the browser will be redirected to the 'view' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
-     */
-    public function actionUpdate($id)
-    {
-        $model = $this->findModel($id);
-
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            Yii::$app->session->setFlash('success', 'Позиция успешно обновлена');
-            return $this->redirect(['update', 'id' => $model->id]);
-        }
-
-        return $this->render('update', [
-            'model' => $model,
-        ]);
+        return $this->redirect(['index']);
     }
 
     /**
      * Deletes an existing Constructor model.
      * If deletion is successful, the browser will be redirected to the 'index' page.
-     * @param integer $id
-     * @return mixed
-     * @throws NotFoundHttpException if the model cannot be found
+     *
+     * @param $id
+     * @return \yii\web\Response
+     * @throws NotFoundHttpException
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
      */
     public function actionDelete($id)
     {

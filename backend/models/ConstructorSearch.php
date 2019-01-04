@@ -2,9 +2,9 @@
 
 namespace backend\models;
 
-use common\models\Constructor;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use common\models\Constructor;
 
 /**
  * ConstructorSearch represents the model behind the search form of `common\models\Constructor`.
@@ -18,7 +18,7 @@ class ConstructorSearch extends Constructor
     {
         return [
             [['id'], 'integer'],
-            [['vendor_code', 'category'], 'safe'],
+            [['article', 'default_name', 'save_name', 'json_name'], 'safe'],
         ];
     }
 
@@ -40,9 +40,8 @@ class ConstructorSearch extends Constructor
      */
     public function search($params)
     {
-        $query = Constructor::find()
-            ->joinWith('sockets')
-            ->joinWith('protected');
+        $query = Constructor::find();
+
         // add conditions that should always apply here
 
         $dataProvider = new ActiveDataProvider([
@@ -62,8 +61,10 @@ class ConstructorSearch extends Constructor
             'id' => $this->id,
         ]);
 
-        $query->andFilterWhere(['like', 'vendor_code', $this->vendor_code])
-            ->andFilterWhere(['like', 'category', $this->category]);
+        $query->andFilterWhere(['like', 'article', $this->article])
+            ->andFilterWhere(['like', 'default_name', $this->default_name])
+            ->andFilterWhere(['like', 'save_name', $this->save_name])
+            ->andFilterWhere(['like', 'json_name', $this->json_name]);
 
         return $dataProvider;
     }
