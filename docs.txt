@@ -1,46 +1,21 @@
 Конструктор находится по пути /frontend/views/site/constructor.php
 
 Контроллер который отвечает за вывод конструктора нахоидтся по пути /frontend/controllers/SiteController.php
+и называется actionConstructor(), там просто указывается какой html нужно подрендерить
 
-Метод называется actionConstructor();
+Всю информацию по конструтору можно получить в ApiController.php в методе actionItems()
 
-Метод для получения результат конструктора - actionGetConstructorProduct();
-Этот метод доступен по урлу  - '/site/get-constructor-product';
-Метод обрабатывает только POST-запрос с названием полей:
+Пример GET запроса на получение всей информации о конструкторах http://mmx.virtual/api/items
+В случае если нет ничего, вернется not found
 
-ConstructorProduct[socket][key] : value
-ConstructorProduct[category] : value
-ConstructorProduct[protected][] : value
+Если же отсутствует продукт с таким артиклем которй есть в контсрутроре в ответе будет только файл конфигурации,
+значение артиклся и описание продукта  - null
 
-category:
-значение - id выбранной категории
+Если все корректно то вернется массив со всеми конструкторами
 
-socket:
-ключ - id розетки
-значение - количество выбранных(не может быть меньше 1);
+Параметр calc это название json файла в котором более детальная информация
 
-protected:
-передается в виде массива как и socket, значение id защиты, ключ может быть любым, в случае отсуствия не будет
-учитываться при поиске товара
+Для доступа к этой информации тоже GET запрос - mmx.virtual/api/items?calc=3952sz.json
 
-
-Метод actionGetConstructorProduct() вернет результат в виде Json-массива
-В случае отсутствия результатов массив будет пустой
-В случае не указания каких-либо параметров ответ с указанием какие нужно заполнить
-
-Пример запроса с использованием jquery:
-$.ajax({
-    url: '/site/get-constructor-product',
-    method: 'post',
-    data: {
-        ConstructorProduct: {
-            category: 1,
-            protected: [2],
-            socket: {4:2, 5:1}
-        }
-    },
-    success: function (data, textStatus) {
-        console.log(data)
-    }
-});
+если отсутствует такой json файл вернется null
 
