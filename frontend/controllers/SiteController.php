@@ -102,6 +102,11 @@ class SiteController extends Controller
         ]);
     }
 
+    public function actionConstructor()
+    {
+        return $this->render('constructor');
+    }
+
     /**
      * @return string
      */
