@@ -1,30 +1,22 @@
 <?php
 
 namespace common\models;
+
+use PhpOffice\PhpSpreadsheet\IOFactory;
+use Yii;
+
 /**
  * This is the model class for table "constructor".
  *
  * @property int $id
- * @property string $vendor_code
- * @property string $category
- *
- * @property Protected2Constructor[] $protected2Constructors
- * @property Socket2Constructor[] $socket2Constructors
+ * @property string $article
+ * @property string $default_name
+ * @property string $save_name
+ * @property string $json_name
  */
 class Constructor extends \yii\db\ActiveRecord
 {
-    const CATEGORY_ARRAY = [
-        1 => 'Стационарное',
-        2 => 'Переносное',
-        3 => 'Стационарное прорезиненное',
-        4 => 'Переносное из стеклоплатстика',
-        5 => 'Переносное прорезиненное',
-        6 => 'Стационарное из пластика'
-    ];
-
-    public $socket;
-    public $socketCount;
-    public $protectedName;
+    const CONSTRUCTOR_FOLDER = 'constructor';
 
     /**
      * {@inheritdoc}
@@ -40,9 +32,10 @@ class Constructor extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['vendor_code', 'category', 'socket'], 'required'],
-            [['vendor_code', 'category'], 'string'],
-            [['socket', 'socketCount', 'protectedName'], 'each', 'rule' => ['integer']]
+            [['default_name'], 'required'],
+            [['save_name'], 'string'],
+            [['article', 'json_name'], 'string', 'max' => 255],
+            [['default_name'], 'file', 'extensions' => 'xls, xlsx', 'skipOnEmpty' => true],
         ];
     }
 
@@ -53,108 +46,127 @@ class Constructor extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'vendor_code' => 'Артикул',
-            'category' => 'Категория',
-            'socket' => 'Розетка',
-            'socketCount' => 'Количество',
-            'protectedName' => 'Защиты'
+            'article' => 'Артикул',
+            'default_name' => 'Имя файла',
+            'save_name' => 'Save Name',
+            'json_name' => 'Json Name',
         ];
     }
 
     /**
-     * @param bool $insert
-     * @return bool
-     * @throws \Throwable
-     * @throws \yii\db\StaleObjectException
+     * {@inheritdoc}
      */
-    public function beforeSave($insert)
+    public function beforeDelete(): bool
     {
-        if (parent::beforeSave($insert)) {
-            if (!$this->isNewRecord) {
-                $model = Socket2Constructor::find()->where(['constructor_id' => $this->id])->all();
-                foreach ($model as $item) {
-                    $item->delete();
-                }
-                $protected = Protected2Constructor::find()->where(['constructor_id' => $this->id])->all();
-                foreach ($protected as $item) {
-                    $item->delete();
-                }
-            }
+        $this->deleteFiles($this->save_name, $this->json_name);
+        return parent::beforeDelete();
+    }
+
+    /**
+     * Save images in folder
+     *
+     * @param $file
+     * @return bool
+     * @throws \PhpOffice\PhpSpreadsheet\Exception
+     * @throws \PhpOffice\PhpSpreadsheet\Reader\Exception
+     * @throws \yii\base\Exception
+     */
+    public function upload($file): bool
+    {
+        if ($this->validate()) {
+            $this->default_name = $file;
+            $fileName = $this->getFileName() . '.' . $this->default_name->extension;
+            $spreadsheet = IOFactory::load($this->default_name->tempName);
+            $data = $spreadsheet->getActiveSheet()->toArray();
+            $this->json_name = $data[2][2] . '.json';
+            $this->article = $data[2][2];
+            $this->generateJson($data);
+            $this->default_name->saveAs($this->getFullPathTofile($fileName));
+            $this->default_name = $this->default_name->name;
+            $this->save_name = $fileName;
             return true;
         } else {
             return false;
         }
     }
 
-    public function afterSave($insert, $changedAttributes)
+    /**
+     * @return string
+     * @throws \yii\base\Exception
+     */
+    private function getFileName(): string
     {
-        parent::afterSave($insert, $changedAttributes);
+        return Yii::$app->security->generateRandomString() . time();
+    }
+
+    /**
+     * @param $fileName
+     * @return string
+     */
+    public static function getPathImg($fileName): string
+    {
+        return '/uploads/' . self::CONSTRUCTOR_FOLDER . '/' . $fileName;
+    }
+
+    /**
+     * Delete img from folder
+     *
+     * @param $fileName
+     * @return string
+     */
+    private function deleteFiles($fileName, $json)
+    {
+        @unlink($this->getFullPathTofile($fileName));
+        @unlink(Yii::getAlias('@frontend') . '/web/json/' . $json);
+    }
+
+    /**
+     * @param $fileName
+     * @return string
+     */
+    private function getFullPathTofile($fileName): string
+    {
+        return Yii::getAlias('@frontend') . '/web' . self::getPathImg($fileName);
+    }
+
+    private function generateJson($data)
+    {
         $result = [];
+        $keysSocket = [3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14];
+        $keysProtected = [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29];
 
-        foreach ($this->socket as $key => $item) {
-            if (!array_key_exists($item, $result)) {
-                $result[$item] = $this->socketCount[$key];
-            } else {
-                $result[$item] = $result[$item] + $this->socketCount[$key];
+        foreach ($keysSocket as $key => $value) {
+            ;
+            if ($data[$value][6] == true) {
+                $result['sockets'][$key]['title'] = $data[$value][3];
+                $result['sockets'][$key]['size'] = $data[$value][5];
+                $result['sockets'][$key]['price'] = $data[$value][16];
+                $result['sockets'][$key]['article'] = $data[$value][2];
             }
         }
 
-        foreach ($result as $key => $item) {
-            $model = new Socket2Constructor();
-            $model->count = $item;
-            $model->constructor_id = $this->id;
-            $model->socket_id = $key;
-            $model->save();
-        }
-
-        foreach ($this->protectedName as $key => $item) {
-            if ($item === '1') {
-                $model = new Protected2Constructor();
-                $model->protected_id = $key;
-                $model->constructor_id = $this->id;
-                $model->save();
+        foreach ($keysProtected as $key => $value) {
+            if ($data[$value][6] == true) {
+                $result['protected'][$key]['title'] = $data[$value][3];
+                $result['protected'][$key]['size'] = $data[$value][5];
+                $result['protected'][$key]['price'] = $data[$value][16];
+                $result['protected'][$key]['article'] = $data[$value][2];
             }
         }
-    }
+        $result['modules'] = $data[42][6];
+        $result['units'] = $data[43][6];
+        $result['price'] = $data[41][4];
 
-    public function afterDelete()
-    {
-        parent::afterDelete();
-        $model = Socket2Constructor::find()->where(['constructor_id' => $this->id])->all();
-        foreach ($model as $item) {
-            $item->delete();
+        $product = Products::find()->where(['vendor_code' => $data[2][2]])->one();
+        if (!empty($product)) {
+            $result['img'] = "uploads/1C/" . $product->img;
+        } else {
+            $result['img'] = null;
         }
-        $protected = Protected2Constructor::find()->where(['constructor_id' => $this->id])->all();
-        foreach ($protected as $item) {
-            $item->delete();
-        }
-    }
+        $fileName = Yii::getAlias('@frontend') . '/web/json/' . $data[2][2] . '.json';
+        $fp = fopen($fileName, 'w');
+        fwrite($fp, json_encode($result));
+        fclose($fp);
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getProtected2Constructors()
-    {
-        return $this->hasMany(Protected2Constructor::className(), ['constructor_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getSocket2Constructors()
-    {
-        return $this->hasMany(Socket2Constructor::className(), ['constructor_id' => 'id']);
-    }
-
-    public function getSockets()
-    {
-        return $this->hasMany(Socket::class, ['id' => 'socket_id'])
-            ->viaTable(Socket2Constructor::tableName(), ['constructor_id' => 'id']);
-    }
-
-    public function getProtected()
-    {
-        return $this->hasMany(ProtectedTable::class, ['id' => 'protected_id'])
-            ->viaTable(Protected2Constructor::tableName(), ['constructor_id' => 'id']);
     }
 }
