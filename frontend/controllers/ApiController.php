@@ -34,6 +34,10 @@ class ApiController extends Controller
                 ->leftJoin('products', 'constructor.article = vendor_code')
                 ->asArray()
                 ->all();
+
+            if(empty($data)){
+                return 'Items not found';
+            }
             foreach ($data as $key => $item) {
                 $result[$key]['article'] = $item['vendor_code'];
                 $result[$key]['item_info'] = $item['product_name'];
