@@ -1,72 +1,46 @@
 <?php
 
-use common\models\Constructor;
 use yii\grid\GridView;
 use yii\helpers\Html;
+use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\ConstructorSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Конструтор';
+$this->title = 'Конструктор';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="constructor-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Добавить позицию', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    <div>
+        <?php $form = ActiveForm::begin([
+            'action' => 'create',
+            'options' =>
+                ['enctype' => 'multipart/form-data']
+        ]); ?>
+
+
+        <?= $form->field($model, 'default_name')->fileInput() ?>
+
+        <div class="form-group">
+            <?= Html::submitButton('Загрузить файл', ['class' => 'btn btn-success']) ?>
+        </div>
+
+        <?php ActiveForm::end(); ?>
+    </div>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
         'columns' => [
+            'article',
+            'default_name',
 
-            'vendor_code',
-            [
-                'attribute' => 'category',
-                'value' => function ($model) {
-                    return Constructor::CATEGORY_ARRAY[$model->category];
-                }
-            ],
-            [
-                'attribute' => 'socket',
-                'format' => 'raw',
-                'value' => function ($model) {
-                    $result = '';
-                    foreach ($model->sockets as $item) {
-                        foreach ($model->socket2Constructors as $socket2Constructor) {
-                            if ($item->id === $socket2Constructor->socket_id &&
-                                $model->id === $socket2Constructor->constructor_id) {
-                                $result .= "{$item->title} - $socket2Constructor->count шт.\n";
-                            }
-                        }
-
-                    }
-                    return $result;
-                }
-            ],
-            [
-                'attribute' => 'protectedName',
-                'format' => 'raw',
-                'value' => function ($model) {
-                    $result = '';
-                    foreach ($model->protected as $item) {
-                        foreach ($model->protected2Constructors as $protected2Constructor) {
-                            if ($item->id === $protected2Constructor->protected_id &&
-                                $model->id === $protected2Constructor->constructor_id) {
-                                $result .= "{$item->name}\n";
-                            }
-                        }
-                    }
-                    return $result;
-                }
-            ],
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{update} {delete}'
+                'template' => '{delete}'
             ],
         ],
     ]); ?>
