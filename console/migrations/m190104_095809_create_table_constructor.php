@@ -18,7 +18,7 @@ class m190104_095809_create_table_constructor extends Migration
             'default_name' => $this->text()->notNull(),
             'save_name' => $this->text()->notNull(),
             'json_name' => $this->char(255)->notNull()
-        ]);
+        ], 'CHARACTER SET utf8 COLLATE utf8_unicode_ci ENGINE=InnoDB');
     }
 
     /**
